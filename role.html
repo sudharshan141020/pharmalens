@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>PharmaLens · Choose Your Role</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f0fdf4; --bg-tertiary: #ecfdf5;
+            --bg-glass-strong: rgba(255, 255, 255, 0.92);
+            --text: #064e3b; --text-secondary: #047857; --text-muted: #6b7280;
+            --accent: #10b981; --accent-dark: #059669; --accent-light: #34d399;
+            --border: rgba(16, 185, 129, 0.18); --glow: rgba(16, 185, 129, 0.2);
+            --shadow: 0 20px 50px rgba(16, 185, 129, 0.15);
+            --input-bg: rgba(255, 255, 255, 0.85);
+            --toggle-bg: #d1fae5; --toggle-icon-color: #059669;
+        }
+        body.dark {
+            --bg-primary: #0f1e18; --bg-secondary: #14261e; --bg-tertiary: #0a1811;
+            --bg-glass-strong: rgba(20, 38, 30, 0.92);
+            --text: #d1fae5; --text-secondary: #86efac; --text-muted: #6ee7b7;
+            --border: rgba(16, 185, 129, 0.25); --glow: rgba(16, 185, 129, 0.25);
+            --shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            --input-bg: rgba(20, 38, 30, 0.7);
+            --toggle-bg: #1f3b2e; --toggle-icon-color: #34d399;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body {
+            color: var(--text); min-height: 100vh; overflow: hidden;
+            background: linear-gradient(-45deg, var(--bg-primary), var(--bg-secondary), var(--bg-tertiary), var(--bg-secondary));
+            background-size: 400% 400%; animation: gradientBG 18s ease infinite;
+            transition: color .4s, background .4s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
+        }
+        #particleCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+        .pills-bg { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+        .float-pill { position: absolute; border-radius: 50px; opacity: 0.35; animation: floatPill 12s ease-in-out infinite; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.15); }
+        .float-pill.p1 { width: 60px; height: 26px; background: linear-gradient(135deg, #10b981, #059669); top: 12%; left: 8%; }
+        .float-pill.p2 { width: 45px; height: 20px; background: linear-gradient(135deg, #34d399, #10b981); top: 25%; right: 10%; animation-delay: 2s; }
+        .float-pill.p3 { width: 70px; height: 30px; background: linear-gradient(135deg, #6ee7b7, #34d399); bottom: 18%; left: 12%; animation-delay: 4s; }
+        .float-pill.p4 { width: 55px; height: 24px; background: linear-gradient(135deg, #a7f3d0, #6ee7b7); bottom: 30%; right: 8%; animation-delay: 6s; }
+        @keyframes floatPill { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(12deg); } }
+
+        .theme-toggle {
+            position: fixed; top: 24px; right: 24px; width: 70px; height: 32px;
+            border-radius: 20px; background-color: var(--toggle-bg);
+            cursor: pointer; transition: background .4s; z-index: 100;
+            border: 1px solid var(--border);
+        }
+        .theme-toggle .knob {
+            width: 24px; height: 24px; background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 13px;
+            position: absolute; left: 4px; top: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform .4s cubic-bezier(.68,-.55,.265,1.55);
+        }
+        body.dark .theme-toggle .knob { transform: translateX(38px); background: #1f3b2e; }
+        .icon-moon { display: none; } .icon-sun { display: block; }
+        body.dark .icon-moon { display: block; } body.dark .icon-sun { display: none; }
+
+        .role-wrapper {
+            position: relative; z-index: 10; width: 100%; max-width: 560px; padding: 20px;
+            max-height: 100vh; overflow-y: auto; scrollbar-width: none;
+        }
+        .role-wrapper::-webkit-scrollbar { display: none; }
+
+        .role-card {
+            background: var(--bg-glass-strong); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border); border-radius: 24px;
+            padding: 40px 36px; box-shadow: var(--shadow);
+            transition: background .4s, border .4s; animation: cardIn 0.6s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+            opacity: 0; transform: translateY(20px);
+        }
+        @keyframes cardIn { to { opacity: 1; transform: translateY(0); } }
+
+        .brand { display: flex; flex-direction: column; align-items: center; margin-bottom: 24px; }
+        .brand-lens {
+            width: 68px; height: 68px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            display: flex; align-items: center; justify-content: center;
+            position: relative; margin-bottom: 14px;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+            animation: brandPulse 3s ease-in-out infinite;
+        }
+        .brand-lens::before {
+            content: ''; position: absolute; inset: -6px; border-radius: 50%;
+            border: 2px solid var(--accent); opacity: 0.4;
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+        .brand-lens i { color: white; font-size: 28px; }
+        @keyframes brandPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+        @keyframes ringPulse { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.12); opacity: 0.1; } }
+        .brand-name { font-size: 24px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+        .brand-name span { color: var(--accent); }
+
+        .role-title-main {
+            font-size: 22px; font-weight: 600; color: var(--text);
+            text-align: center; margin-bottom: 6px;
+        }
+        .role-subtitle {
+            font-size: 13px; color: var(--text-muted);
+            text-align: center; margin-bottom: 28px;
+        }
+
+        .role-options {
+            display: flex; flex-direction: column; gap: 14px; margin-bottom: 22px;
+        }
+        .role-option {
+            display: flex; align-items: center; gap: 16px;
+            padding: 20px 22px; border-radius: 16px;
+            background: var(--input-bg);
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.4, 1);
+            position: relative; overflow: hidden;
+        }
+        .role-option::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+            width: 4px; background: var(--accent); transform: scaleY(0);
+            transition: transform 0.3s ease; transform-origin: center;
+        }
+        .role-option:hover {
+            border-color: var(--accent);
+            transform: translateX(6px);
+            box-shadow: 0 8px 25px var(--glow);
+        }
+        .role-option:hover::before { transform: scaleY(1); }
+        .role-option:active { transform: translateX(4px) scale(0.99); }
+
+        .role-icon {
+            width: 54px; height: 54px; border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; color: white; font-size: 22px;
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
+            transition: transform 0.3s;
+        }
+        .role-option:hover .role-icon { transform: rotate(-6deg) scale(1.06); }
+        .role-option.alt .role-icon {
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+        }
+        .role-option.alt:hover { border-color: #14b8a6; }
+        .role-option.alt::before { background: #14b8a6; }
+
+        .role-info { flex: 1; }
+        .role-name { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+        .role-desc { font-size: 12px; color: var(--text-muted); line-height: 1.45; }
+
+        .role-arrow {
+            color: var(--text-muted); font-size: 14px;
+            transition: transform 0.3s, color 0.3s;
+        }
+        .role-option:hover .role-arrow {
+            color: var(--accent); transform: translateX(4px);
+        }
+        .role-option.alt:hover .role-arrow { color: #14b8a6; }
+
+        .role-footer {
+            text-align: center; font-size: 12.5px; color: var(--text-muted);
+            padding-top: 16px; border-top: 1px solid var(--border);
+        }
+        .role-footer a {
+            color: var(--accent); text-decoration: none; font-weight: 600;
+            cursor: pointer; transition: color 0.2s;
+        }
+        .role-footer a:hover { color: var(--accent-dark); text-decoration: underline; }
+
+        @media (max-width: 480px) {
+            .role-card { padding: 30px 22px; border-radius: 20px; }
+            .brand-name { font-size: 22px; }
+            .role-title-main { font-size: 19px; }
+            .role-option { padding: 16px 18px; }
+            .role-icon { width: 48px; height: 48px; font-size: 20px; }
+            .role-name { font-size: 14px; }
+            .theme-toggle { top: 16px; right: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particleCanvas"></canvas>
+    <div class="pills-bg">
+        <div class="float-pill p1"></div>
+        <div class="float-pill p2"></div>
+        <div class="float-pill p3"></div>
+        <div class="float-pill p4"></div>
+    </div>
+
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <div class="knob">
+            <span class="icon-sun">☀️</span>
+            <span class="icon-moon">🌙</span>
+        </div>
+    </div>
+
+    <div class="role-wrapper">
+        <div class="role-card">
+            <div class="brand">
+                <div class="brand-lens"><i class="fas fa-eye"></i></div>
+                <div class="brand-name">Pharma<span>Lens</span></div>
+            </div>
+
+            <h2 class="role-title-main">Tell us who you are</h2>
+            <p class="role-subtitle">This helps us personalize your PharmaLens experience</p>
+
+            <div class="role-options">
+                <div class="role-option" onclick="selectRole('practitioner')">
+                    <div class="role-icon"><i class="fas fa-user-md"></i></div>
+                    <div class="role-info">
+                        <div class="role-name">I am a medical practitioner</div>
+                        <div class="role-desc">Doctor, nurse, pharmacist, or other healthcare professional</div>
+                    </div>
+                    <i class="fas fa-arrow-right role-arrow"></i>
+                </div>
+
+                <div class="role-option alt" onclick="selectRole('patient')">
+                    <div class="role-icon"><i class="fas fa-user"></i></div>
+                    <div class="role-info">
+                        <div class="role-name">I am not a medical practitioner</div>
+                        <div class="role-desc">Patient, caregiver, or general user seeking information</div>
+                    </div>
+                    <i class="fas fa-arrow-right role-arrow"></i>
+                </div>
+            </div>
+
+            <div class="role-footer">
+                Wrong account? <a onclick="goBack()">Go back to sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('pharmalens-theme',
+                document.body.classList.contains('dark') ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('pharmalens-theme') === 'dark') {
+            document.body.classList.add('dark');
+        }
+
+        // Role selection
+        function selectRole(role) {
+            // Save role to the user object
+            const userRaw = localStorage.getItem('pharmalens-user');
+            let user = {};
+            if (userRaw) { try { user = JSON.parse(userRaw); } catch(e) {} }
+            user.role = role;
+            user.roleSelectedAt = new Date().toISOString();
+            localStorage.setItem('pharmalens-user', JSON.stringify(user));
+
+            // Redirect to app
+            window.location.href = 'app.html';
+        }
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // Particles
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            initParticles();
+        });
+        class Particle {
+            constructor(x, y) {
+                this.x = x; this.y = y;
+                this.size = Math.random() * 4 + 1;
+                this.speedX = Math.random() * 1.2 - 0.6;
+                this.speedY = Math.random() * 1.2 - 0.6;
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(16, 185, 129, 0.45)';
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.closePath(); ctx.fill();
+            }
+        }
+        function initParticles() {
+            particlesArray = [];
+            const count = Math.min(80, (canvas.height * canvas.width) / 16000);
+            for (let i = 0; i < count; i++) {
+                particlesArray.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+            }
+        }
+        function connectParticles() {
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a + 1; b < particlesArray.length; b++) {
+                    const dx = particlesArray[a].x - particlesArray[b].x;
+                    const dy = particlesArray[a].y - particlesArray[b].y;
+                    const distance = dx * dx + dy * dy;
+                    if (distance < 18000) {
+                        const opacity = 1 - distance / 18000;
+                        ctx.strokeStyle = `rgba(16, 185, 129, ${opacity * 0.5})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (const p of particlesArray) { p.update(); p.draw(); }
+            connectParticles();
+            requestAnimationFrame(animateParticles);
+        }
+        initParticles(); animateParticles();
+
+        // Subtle mouse parallax
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            document.querySelectorAll('.float-pill').forEach((pill, i) => {
+                const factor = (i % 3 + 1) * 0.6;
+                pill.style.marginLeft = (x * factor) + 'px';
+                pill.style.marginTop = (y * factor) + 'px';
+            });
+        });
+    </script>
+</body>
+</html>
