@@ -38,62 +38,155 @@
             0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
         }
         #particleCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-        .pills-bg { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
-        .float-pill { position: absolute; border-radius: 50px; opacity: 0.28; animation: floatPill 12s ease-in-out infinite; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.15); }
-        .float-pill.p1 { width: 60px; height: 26px; background: linear-gradient(135deg, #10b981, #059669); top: 12%; left: 8%; }
+
+        /* ===== FLOATING PILLS BACKGROUND ===== */
+        .pills-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .float-pill {
+            position: absolute;
+            border-radius: 50px;
+            opacity: 0.35;
+            animation: floatPill 12s ease-in-out infinite;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.15);
+        }
+        .float-pill.p1 { width: 60px; height: 26px; background: linear-gradient(135deg, #10b981, #059669); top: 12%; left: 8%; animation-delay: 0s; }
         .float-pill.p2 { width: 45px; height: 20px; background: linear-gradient(135deg, #34d399, #10b981); top: 25%; right: 10%; animation-delay: 2s; }
         .float-pill.p3 { width: 70px; height: 30px; background: linear-gradient(135deg, #6ee7b7, #34d399); bottom: 18%; left: 12%; animation-delay: 4s; }
         .float-pill.p4 { width: 55px; height: 24px; background: linear-gradient(135deg, #a7f3d0, #6ee7b7); bottom: 30%; right: 8%; animation-delay: 6s; }
         .float-pill.p5 { width: 40px; height: 18px; background: linear-gradient(135deg, #14b8a6, #0d9488); top: 55%; left: 4%; animation-delay: 1s; }
-        @keyframes floatPill { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-30px) rotate(12deg); } }
+        .float-pill.p6 { width: 50px; height: 22px; background: linear-gradient(135deg, #22c55e, #16a34a); top: 8%; right: 25%; animation-delay: 5s; }
+        .float-pill.p7 { width: 65px; height: 28px; background: linear-gradient(135deg, #4ade80, #22c55e); bottom: 8%; right: 22%; animation-delay: 3s; }
+        .float-pill.p8 { width: 38px; height: 16px; background: linear-gradient(135deg, #84cc16, #65a30d); top: 70%; right: 5%; animation-delay: 7s; }
+        .float-pill.p9 { width: 48px; height: 22px; background: linear-gradient(135deg, #10b981, #047857); top: 42%; left: 3%; animation-delay: 2.5s; }
+        .float-pill.p10 { width: 36px; height: 15px; background: linear-gradient(135deg, #34d399, #059669); bottom: 42%; right: 4%; animation-delay: 4.5s; }
+
+        @keyframes floatPill {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(12deg); }
+        }
 
         .app-container { display: flex; height: 100vh; position: relative; z-index: 10; }
 
         /* ===== SIDEBAR ===== */
         .sidebar {
-            width: 60px; background: var(--bg-glass);
+            width: 64px;
+            background: var(--bg-glass);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-right: 1px solid var(--border); padding: 20px 10px;
-            display: flex; flex-direction: column; gap: 12px;
-            overflow: hidden; white-space: nowrap;
+            border-right: 1px solid var(--border);
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow: hidden;
+            white-space: nowrap;
             transition: width .4s cubic-bezier(.77,0,.175,1), background .4s;
             position: relative; z-index: 20; flex-shrink: 0;
         }
         .sidebar:hover { width: 320px; box-shadow: 5px 0 20px var(--glow); }
+
+        /* Logo — icon always visible */
         .logo {
-            font-size: 22px; font-weight: 700; color: var(--text);
-            opacity: 0; transition: opacity .2s;
-            display: flex; align-items: center; gap: 8px; padding-left: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 2px 14px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+            min-height: 44px;
         }
-        .sidebar:hover .logo { opacity: 1; }
-        .logo i { color: var(--accent); font-size: 24px; }
-        .logo span span { color: var(--accent); }
-        .sidebar-btn-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+        .logo i {
+            color: var(--accent);
+            font-size: 26px;
+            flex-shrink: 0;
+            width: 28px;
+            text-align: center;
+            transition: transform .3s;
+        }
+        .sidebar:hover .logo i { transform: rotate(-8deg); }
+        .logo-text {
+            opacity: 0;
+            transition: opacity .25s .05s;
+            white-space: nowrap;
+        }
+        .logo-text span { color: var(--accent); }
+        .sidebar:hover .logo-text { opacity: 1; }
+
+        /* Sidebar buttons — COMPLETELY HIDDEN when collapsed */
+        .sidebar-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transition: opacity .25s ease, max-height .35s ease;
+        }
+        .sidebar:hover .sidebar-btn-group {
+            opacity: 1;
+            max-height: 120px;
+            pointer-events: auto;
+        }
         .sidebar-btn {
             padding: 10px 12px; border-radius: 10px; cursor: pointer;
             font-size: 14px; width: 100%; text-align: left;
-            opacity: 0; border: none; font-family: 'Poppins', sans-serif; font-weight: 500;
-            transition: opacity .3s, background .3s, color .3s;
-            display: flex; align-items: center; gap: 10px;
+            border: none; font-family: 'Poppins', sans-serif; font-weight: 500;
+            transition: background .25s, color .25s;
+            display: flex; align-items: center; gap: 12px; white-space: nowrap;
         }
-        .sidebar:hover .sidebar-btn { opacity: 1; }
+        .sidebar-btn i { font-size: 16px; flex-shrink: 0; width: 20px; text-align: center; }
+        .sidebar-btn .btn-label { white-space: nowrap; }
         .btn-new { background: var(--accent); color: white; }
         .btn-new:hover { background: var(--accent-dark); }
-        .btn-clear { background: var(--red-accent); color: white; }
-        .btn-clear:hover { background: #dc2626; }
+        .btn-clear { background: rgba(239, 68, 68, 0.12); color: var(--red-accent); }
+        .btn-clear:hover { background: var(--red-accent); color: white; }
 
-        .history-section {
-            opacity: 0; transition: opacity .3s; flex: 1;
-            overflow-y: auto; margin-top: 6px;
-            border-top: 1px solid var(--border); padding-top: 12px; padding-right: 4px;
+        /* Date — COMPLETELY HIDDEN when collapsed */
+        .sidebar-date {
+            padding: 8px 2px 12px; font-size: 11px; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;
+            display: flex; align-items: center; gap: 12px;
+            border-bottom: 1px solid var(--border);
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transition: opacity .25s ease, max-height .35s ease;
         }
-        .sidebar:hover .history-section { opacity: 1; }
+        .sidebar:hover .sidebar-date {
+            opacity: 1;
+            max-height: 40px;
+            pointer-events: auto;
+        }
+        .sidebar-date i { font-size: 14px; color: var(--accent); width: 20px; text-align: center; flex-shrink: 0; }
+        .sidebar-date .date-label { white-space: nowrap; }
+
+        /* History — hidden when collapsed */
+        .history-section {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 4px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s ease;
+        }
+        .sidebar:hover .history-section {
+            opacity: 1;
+            pointer-events: auto;
+        }
         .history-section::-webkit-scrollbar { width: 4px; }
         .history-section::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
         .history-date-group { margin-bottom: 12px; }
         .history-date-label {
             font-size: 11px; text-transform: uppercase; color: var(--text-muted);
-            letter-spacing: 0.5px; padding: 4px 8px; margin-bottom: 4px; font-weight: 600;
+            letter-spacing: 0.5px; padding: 4px 4px; margin-bottom: 4px; font-weight: 600;
         }
         .history-item {
             display: flex; align-items: center; padding: 6px 8px;
@@ -132,7 +225,8 @@
         /* ===== MAIN ===== */
         .chat-area { flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; min-width: 0; }
         .chat-header {
-            padding: 14px 26px; background: var(--bg-glass);
+            padding: 14px 34px 14px 26px;
+            background: var(--bg-glass);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: center;
@@ -141,9 +235,8 @@
         .chat-header .left { display: flex; align-items: center; gap: 10px; }
         .chat-header .left i.main-icon { color: var(--accent); font-size: 20px; }
         .chat-header .left h3 { font-weight: 600; color: var(--text); margin: 0; font-size: 16px; }
-        .chat-header .right { display: flex; align-items: center; gap: 12px; }
+        .chat-header .right { display: flex; align-items: center; gap: 14px; }
 
-        /* ===== PROFILE CHIP & DROPDOWN ===== */
         .user-chip {
             display: flex; align-items: center; gap: 8px;
             padding: 5px 10px 5px 5px; background: var(--input-bg);
@@ -153,10 +246,7 @@
             transition: background .2s, border .2s, box-shadow .2s;
             user-select: none;
         }
-        .user-chip:hover {
-            border-color: var(--accent);
-            box-shadow: 0 4px 12px var(--glow);
-        }
+        .user-chip:hover { border-color: var(--accent); box-shadow: 0 4px 12px var(--glow); }
         .user-chip .avatar {
             width: 26px; height: 26px; border-radius: 50%;
             background: linear-gradient(135deg, var(--accent), var(--accent-dark));
@@ -164,15 +254,29 @@
             justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0;
         }
         .user-chip .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .user-chip .chevron {
-            font-size: 9px; color: var(--text-muted);
-            transition: transform .25s ease;
-        }
+        .user-chip .chevron { font-size: 9px; color: var(--text-muted); transition: transform .25s ease; }
         .user-chip.open .chevron { transform: rotate(180deg); }
 
-        /* ===== PROFILE MENU (Chrome-style) ===== */
+        .theme-toggle {
+            width: 56px; height: 28px; border-radius: 20px;
+            background: var(--toggle-bg); position: relative;
+            cursor: pointer; border: 1px solid var(--border);
+            transition: background .35s ease; flex-shrink: 0; user-select: none;
+        }
+        .theme-toggle .knob {
+            position: absolute; width: 22px; height: 22px;
+            background: white; border-radius: 50%;
+            top: 2px; left: 2px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+            transition: transform .4s cubic-bezier(.4,0,.2,1), background .35s ease;
+            display: flex; align-items: center; justify-content: center; z-index: 2;
+        }
+        .theme-toggle .knob i { font-size: 11px; color: #f59e0b; transition: color .35s ease; }
+        body.dark .theme-toggle .knob { transform: translateX(28px); background: #1f3b2e; }
+        body.dark .theme-toggle .knob i { color: #34d399; }
+
         .profile-menu {
-            position: absolute; top: 62px; right: 26px;
+            position: absolute; top: 62px; right: 34px;
             width: 340px; max-width: calc(100vw - 40px);
             background: var(--bg-glass-strong);
             backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
@@ -187,8 +291,6 @@
             from { opacity: 0; transform: translateY(-8px) scale(0.98); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
-
-        /* Header section */
         .profile-menu-header {
             display: flex; flex-direction: column; align-items: center;
             padding: 20px 16px 16px;
@@ -212,23 +314,10 @@
             font-size: 10px; color: var(--accent);
         }
         body.dark .profile-avatar-lg .role-badge { background: #1f3b2e; }
-        .profile-menu-name {
-            font-size: 15px; font-weight: 600; color: var(--text);
-            margin-bottom: 2px; text-align: center;
-        }
-        .profile-menu-email {
-            font-size: 11.5px; color: var(--text-muted);
-            text-align: center; word-break: break-all; padding: 0 8px;
-        }
-
-        /* Menu groups */
-        .profile-menu-group {
-            display: flex; flex-direction: column;
-            padding: 4px 0;
-        }
-        .profile-menu-divider {
-            height: 1px; background: var(--border); margin: 4px 8px;
-        }
+        .profile-menu-name { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 2px; text-align: center; }
+        .profile-menu-email { font-size: 11.5px; color: var(--text-muted); text-align: center; word-break: break-all; padding: 0 8px; }
+        .profile-menu-group { display: flex; flex-direction: column; padding: 4px 0; }
+        .profile-menu-divider { height: 1px; background: var(--border); margin: 4px 8px; }
         .profile-menu-item {
             display: flex; align-items: center; gap: 14px;
             padding: 10px 14px; border-radius: 10px;
@@ -239,85 +328,47 @@
             text-align: left; width: 100%; position: relative;
         }
         .profile-menu-item:hover { background: var(--glow); }
-        .profile-menu-item i {
-            width: 20px; text-align: center;
-            font-size: 15px; color: var(--accent);
-            flex-shrink: 0;
-        }
+        .profile-menu-item i { width: 20px; text-align: center; font-size: 15px; color: var(--accent); flex-shrink: 0; }
         .profile-menu-item .item-label { flex: 1; }
         .profile-menu-item .item-badge {
-            font-size: 10px; font-weight: 600;
-            padding: 2px 8px; border-radius: 10px;
-            background: var(--accent); color: white;
-            flex-shrink: 0;
+            font-size: 10px; font-weight: 600; padding: 2px 8px;
+            border-radius: 10px; background: var(--accent); color: white; flex-shrink: 0;
         }
-        .profile-menu-item .item-chevron {
-            font-size: 11px; color: var(--text-muted);
-            width: auto; flex-shrink: 0;
-        }
-        .profile-menu-item.sos {
-            color: #dc2626;
-            background: rgba(239, 68, 68, 0.08);
-        }
+        .profile-menu-item .item-chevron { font-size: 11px; color: var(--text-muted); width: auto; flex-shrink: 0; }
+        .profile-menu-item.sos { color: #dc2626; background: rgba(239, 68, 68, 0.08); }
         .profile-menu-item.sos i { color: #dc2626; }
-        .profile-menu-item.sos:hover {
-            background: rgba(239, 68, 68, 0.15);
-        }
-        .profile-menu-item.signout {
-            color: var(--text-secondary);
-        }
+        .profile-menu-item.sos:hover { background: rgba(239, 68, 68, 0.15); }
+        .profile-menu-item.signout { color: var(--text-secondary); }
         .profile-menu-item.signout i { color: var(--text-secondary); }
-        .profile-menu-item.signout:hover {
-            background: rgba(239, 68, 68, 0.1);
-            color: #dc2626;
-        }
+        .profile-menu-item.signout:hover { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
         .profile-menu-item.signout:hover i { color: #dc2626; }
 
-        .profile-menu-group-title {
-            font-size: 10.5px; text-transform: uppercase;
-            font-weight: 600; letter-spacing: 0.5px;
-            color: var(--text-muted); padding: 8px 14px 4px;
-        }
-
-        /* ===== VIEW CONTAINER ===== */
-        .view-container {
-            flex: 1; position: relative; overflow: hidden;
-        }
-        .view {
-            position: absolute; inset: 0;
-            display: none; flex-direction: column;
-        }
+        /* VIEWS */
+        .view-container { flex: 1; position: relative; overflow: hidden; }
+        .view { position: absolute; inset: 0; display: none; flex-direction: column; }
         .view.active { display: flex; }
 
-        /* ===== CHAT VIEW ===== */
         .messages-container {
             flex: 1; overflow-y: auto; padding: 24px 30px;
-            display: flex; flex-direction: column; gap: 18px;
-            scroll-behavior: smooth;
+            display: flex; flex-direction: column; gap: 18px; scroll-behavior: smooth;
         }
         .messages-container::-webkit-scrollbar { width: 6px; }
         .messages-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
 
-        .initial-state { margin: auto; text-align: center; max-width: 600px; }
-        .initial-state h2 {
-            margin-bottom: 10px; color: var(--text); font-size: 1.8rem; font-weight: 600;
-        }
+        .initial-state { margin: auto; text-align: center; max-width: 600px; position: relative; z-index: 5; }
+        .initial-state h2 { margin-bottom: 10px; color: var(--text); font-size: 1.8rem; font-weight: 600; }
         .initial-state h2 span {
             background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        .initial-state p.sub {
-            color: var(--text-muted); font-size: 14px; margin-bottom: 28px;
-        }
+        .initial-state p.sub { color: var(--text-muted); font-size: 14px; margin-bottom: 28px; }
         .suggestions-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         .suggestion-btn {
             background: var(--bg-glass-strong); backdrop-filter: blur(10px);
             border: 1px solid var(--accent); color: var(--accent);
             padding: 14px; border-radius: 14px; cursor: pointer;
             transition: all .3s; box-shadow: 0 4px 10px var(--glow);
-            font-family: 'Poppins', sans-serif; font-size: 13.5px;
-            font-weight: 500; text-align: left;
+            font-family: 'Poppins', sans-serif; font-size: 13.5px; font-weight: 500; text-align: left;
         }
         .suggestion-btn:hover {
             background: var(--accent); color: white;
@@ -355,10 +406,7 @@
             cursor: pointer; font-size: 13px; padding: 4px 6px;
             border-radius: 6px; transition: transform .2s, color .2s, background .2s;
         }
-        .action-btn:hover {
-            transform: scale(1.15); color: var(--accent);
-            background: rgba(16,185,129,0.1);
-        }
+        .action-btn:hover { transform: scale(1.15); color: var(--accent); background: rgba(16,185,129,0.1); }
         .citation-chip {
             display: inline-flex; align-items: center; gap: 5px;
             margin-top: 10px; padding: 4px 10px;
@@ -378,81 +426,44 @@
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
         @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
 
-        /* ===== DASHBOARD VIEW (Files, Prescriptions, Dosage) ===== */
-        .dashboard-container {
-            flex: 1; overflow-y: auto; padding: 30px 40px;
-        }
+        /* DASHBOARDS */
+        .dashboard-container { flex: 1; overflow-y: auto; padding: 30px 40px; }
         .dashboard-container::-webkit-scrollbar { width: 6px; }
         .dashboard-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
-
-        .dash-header {
-            margin-bottom: 26px;
-        }
-        .dash-header h2 {
-            font-size: 24px; font-weight: 600; color: var(--text);
-            margin-bottom: 6px;
-        }
-        .dash-header h2 i {
-            color: var(--accent); margin-right: 10px; font-size: 22px;
-        }
-        .dash-header p {
-            font-size: 13.5px; color: var(--text-muted);
-        }
-
-        .dash-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 14px; margin-bottom: 26px;
-        }
+        .dash-header { margin-bottom: 26px; }
+        .dash-header h2 { font-size: 24px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+        .dash-header h2 i { color: var(--accent); margin-right: 10px; font-size: 22px; }
+        .dash-header p { font-size: 13.5px; color: var(--text-muted); }
+        .dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 26px; }
         .stat-card {
             background: var(--bg-glass-strong); backdrop-filter: blur(10px);
             border: 1px solid var(--border); border-radius: 14px;
             padding: 18px 20px; transition: transform .2s, box-shadow .2s, border .2s;
         }
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px var(--glow);
-            border-color: var(--accent);
-        }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px var(--glow); border-color: var(--accent); }
         .stat-icon {
             width: 40px; height: 40px; border-radius: 12px;
             background: linear-gradient(135deg, var(--accent), var(--accent-dark));
             color: white; display: flex; align-items: center;
             justify-content: center; font-size: 17px; margin-bottom: 12px;
         }
-        .stat-value {
-            font-size: 24px; font-weight: 700; color: var(--text);
-            margin-bottom: 2px;
-        }
-        .stat-label {
-            font-size: 12px; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 0.4px; font-weight: 500;
-        }
+        .stat-value { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+        .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 500; }
 
-        /* Upload zone */
         .upload-zone {
             background: var(--bg-glass-strong); backdrop-filter: blur(10px);
             border: 2px dashed var(--accent); border-radius: 18px;
             padding: 40px 24px; text-align: center;
-            margin-bottom: 26px; cursor: pointer;
-            transition: all .3s; position: relative;
+            margin-bottom: 26px; cursor: pointer; transition: all .3s;
         }
         .upload-zone:hover, .upload-zone.dragover {
             background: rgba(16,185,129,0.08);
             border-color: var(--accent-dark);
             transform: scale(1.005);
         }
-        .upload-zone i {
-            font-size: 42px; color: var(--accent);
-            margin-bottom: 12px; display: block;
-        }
-        .upload-zone h3 {
-            font-size: 16px; font-weight: 600; color: var(--text);
-            margin-bottom: 6px;
-        }
-        .upload-zone p {
-            font-size: 12.5px; color: var(--text-muted);
-        }
+        .upload-zone i { font-size: 42px; color: var(--accent); margin-bottom: 12px; display: block; }
+        .upload-zone h3 { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+        .upload-zone p { font-size: 12.5px; color: var(--text-muted); }
         .upload-zone .browse-btn {
             display: inline-block; margin-top: 14px;
             padding: 8px 20px; background: var(--accent); color: white;
@@ -461,41 +472,32 @@
             transition: background .2s, transform .2s;
             font-family: 'Poppins', sans-serif;
         }
-        .upload-zone .browse-btn:hover {
-            background: var(--accent-dark); transform: translateY(-1px);
-        }
+        .upload-zone .browse-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
 
-        /* File list */
         .file-list-section {
             background: var(--bg-glass-strong); backdrop-filter: blur(10px);
-            border: 1px solid var(--border); border-radius: 16px;
-            overflow: hidden;
+            border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
         }
         .file-list-header {
             display: flex; align-items: center; justify-content: space-between;
             padding: 16px 20px; border-bottom: 1px solid var(--border);
             background: rgba(16,185,129,0.05);
         }
-        .file-list-header h3 {
-            font-size: 14.5px; font-weight: 600; color: var(--text);
-        }
+        .file-list-header h3 { font-size: 14.5px; font-weight: 600; color: var(--text); }
         .file-list-header h3 i { color: var(--accent); margin-right: 8px; }
         .file-list-header .count {
             font-size: 12px; color: var(--text-muted);
             background: var(--input-bg); padding: 3px 10px;
             border-radius: 12px; border: 1px solid var(--border);
         }
-
         .file-list { padding: 8px; }
         .file-row {
             display: flex; align-items: center; gap: 14px;
             padding: 12px 14px; border-radius: 12px;
-            transition: background .2s; cursor: pointer;
-            position: relative;
+            transition: background .2s; cursor: pointer; position: relative;
         }
         .file-row:hover { background: var(--glow); }
         .file-row + .file-row { border-top: 1px solid var(--border); }
-
         .file-type-icon {
             width: 42px; height: 42px; border-radius: 11px;
             display: flex; align-items: center; justify-content: center;
@@ -505,23 +507,16 @@
         .file-type-icon.img { background: linear-gradient(135deg, #3b82f6, #2563eb); }
         .file-type-icon.doc { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
         .file-type-icon.txt { background: linear-gradient(135deg, #f59e0b, #d97706); }
-
         .file-info { flex: 1; min-width: 0; }
         .file-name {
             font-size: 13.5px; font-weight: 500; color: var(--text);
             margin-bottom: 3px; overflow: hidden;
             text-overflow: ellipsis; white-space: nowrap;
         }
-        .file-meta {
-            font-size: 11.5px; color: var(--text-muted);
-            display: flex; gap: 10px; flex-wrap: wrap;
-        }
+        .file-meta { font-size: 11.5px; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap; }
         .file-meta span { display: flex; align-items: center; gap: 4px; }
         .file-meta i { font-size: 10px; }
-
-        .file-actions {
-            display: flex; gap: 4px; flex-shrink: 0;
-        }
+        .file-actions { display: flex; gap: 4px; flex-shrink: 0; }
         .file-action-btn {
             width: 32px; height: 32px; border-radius: 8px;
             background: transparent; border: none;
@@ -530,31 +525,13 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 13px;
         }
-        .file-action-btn:hover {
-            background: var(--accent); color: white; transform: scale(1.08);
-        }
-        .file-action-btn.delete:hover {
-            background: var(--red-accent);
-        }
+        .file-action-btn:hover { background: var(--accent); color: white; transform: scale(1.08); }
+        .file-action-btn.delete:hover { background: var(--red-accent); }
+        .empty-files { text-align: center; padding: 40px 20px; color: var(--text-muted); }
+        .empty-files i { font-size: 42px; color: var(--accent); opacity: 0.5; margin-bottom: 12px; }
+        .empty-files p { font-size: 13px; }
 
-        .empty-files {
-            text-align: center; padding: 40px 20px;
-            color: var(--text-muted);
-        }
-        .empty-files i {
-            font-size: 42px; color: var(--accent);
-            opacity: 0.5; margin-bottom: 12px;
-        }
-        .empty-files p {
-            font-size: 13px;
-        }
-
-        /* Prescriptions grid */
-        .prescription-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-        }
+        .prescription-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
         .prescription-card {
             background: var(--bg-glass-strong); backdrop-filter: blur(10px);
             border: 1px solid var(--border); border-radius: 14px;
@@ -562,39 +539,24 @@
             cursor: pointer;
         }
         .prescription-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent);
+            transform: translateY(-3px); border-color: var(--accent);
             box-shadow: 0 8px 20px var(--glow);
         }
-        .prescription-card .p-header {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 12px;
-        }
+        .prescription-card .p-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
         .prescription-card .p-icon {
             width: 40px; height: 40px; border-radius: 10px;
             background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: white; display: flex; align-items: center;
-            justify-content: center; font-size: 16px;
+            color: white; display: flex; align-items: center; justify-content: center; font-size: 16px;
         }
         .prescription-card .p-badge {
             font-size: 10px; padding: 3px 10px; border-radius: 20px;
-            background: rgba(16,185,129,0.15); color: var(--accent-dark);
-            font-weight: 600;
+            background: rgba(16,185,129,0.15); color: var(--accent-dark); font-weight: 600;
         }
-        .prescription-card .p-title {
-            font-size: 14.5px; font-weight: 600; color: var(--text);
-            margin-bottom: 6px;
-        }
-        .prescription-card .p-details {
-            font-size: 12px; color: var(--text-muted);
-            line-height: 1.55;
-        }
+        .prescription-card .p-title { font-size: 14.5px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+        .prescription-card .p-details { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
         .prescription-card .p-details strong { color: var(--text-secondary); }
 
-        /* Dosage timings */
-        .dosage-list {
-            display: flex; flex-direction: column; gap: 12px;
-        }
+        .dosage-list { display: flex; flex-direction: column; gap: 12px; }
         .dosage-item {
             display: flex; align-items: center; gap: 16px;
             background: var(--bg-glass-strong); backdrop-filter: blur(10px);
@@ -602,8 +564,7 @@
             padding: 16px 20px; transition: border .2s, box-shadow .2s, transform .2s;
         }
         .dosage-item:hover {
-            border-color: var(--accent);
-            box-shadow: 0 6px 18px var(--glow);
+            border-color: var(--accent); box-shadow: 0 6px 18px var(--glow);
             transform: translateX(4px);
         }
         .dosage-time {
@@ -612,26 +573,12 @@
             color: white; padding: 10px 16px; border-radius: 12px;
             min-width: 90px; flex-shrink: 0;
         }
-        .dosage-time .hour {
-            font-size: 16px; font-weight: 700; line-height: 1;
-        }
-        .dosage-time .period {
-            font-size: 10px; opacity: 0.85; margin-top: 2px;
-            letter-spacing: 0.5px;
-        }
+        .dosage-time .hour { font-size: 16px; font-weight: 700; line-height: 1; }
+        .dosage-time .period { font-size: 10px; opacity: 0.85; margin-top: 2px; letter-spacing: 0.5px; }
         .dosage-info { flex: 1; }
-        .dosage-info .med-name {
-            font-size: 14.5px; font-weight: 600; color: var(--text);
-            margin-bottom: 3px;
-        }
-        .dosage-info .med-dose {
-            font-size: 12.5px; color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
-        .dosage-info .med-note {
-            font-size: 11.5px; color: var(--text-muted);
-            display: flex; align-items: center; gap: 5px;
-        }
+        .dosage-info .med-name { font-size: 14.5px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+        .dosage-info .med-dose { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 4px; }
+        .dosage-info .med-note { font-size: 11.5px; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
         .dosage-check {
             width: 28px; height: 28px; border-radius: 50%;
             border: 2px solid var(--border); cursor: pointer;
@@ -639,16 +586,10 @@
             align-items: center; justify-content: center;
             flex-shrink: 0; color: transparent;
         }
-        .dosage-check:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        .dosage-check.done {
-            background: var(--accent); border-color: var(--accent);
-            color: white;
-        }
+        .dosage-check:hover { border-color: var(--accent); color: var(--accent); }
+        .dosage-check.done { background: var(--accent); border-color: var(--accent); color: white; }
 
-        /* ===== INPUT AREA (chat only) ===== */
+        /* INPUT AREA (clean) */
         .input-container {
             padding: 16px 30px 20px; background: var(--bg-glass);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -660,63 +601,20 @@
             background: var(--bg-glass-strong);
             border: 2px solid var(--accent); border-radius: 50px;
             padding: 6px 10px; position: relative;
-            overflow: visible; min-height: 60px;
-            perspective: 900px;
+            min-height: 56px;
             box-shadow: 0 4px 15px rgba(16,185,129,0.1);
             transition: border .2s, box-shadow .2s;
         }
-        .input-wrapper:focus-within {
-            box-shadow: 0 4px 20px rgba(16,185,129,0.22);
-        }
-        .pill-container {
-            position: absolute; inset: 0;
-            pointer-events: none; overflow: visible; z-index: 1;
-        }
-        .input-pill {
-            position: absolute; border-radius: 50px;
-            box-shadow: 0 2px 6px rgba(16,185,129,0.2), inset 0 -2px 4px rgba(0,0,0,0.08);
-            transform-style: preserve-3d; transition: transform .1s;
-            will-change: transform, opacity;
-            animation: idleFloat 3s ease-in-out infinite alternate;
-            opacity: 0.85;
-        }
-        .input-pill::after {
-            content: ''; position: absolute;
-            top: 10%; left: 10%; right: 10%; height: 40%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%);
-            border-radius: 50px; pointer-events: none;
-        }
-        @keyframes idleFloat {
-            0% { transform: translateY(0) rotate(0deg) scale(1); }
-            100% { transform: translateY(-4px) rotate(3deg) scale(1.02); }
-        }
-        @keyframes flowOut {
-            0% { transform: translate3d(0,0,0) scale(1) rotate(0deg); opacity: 0.9; }
-            30% {
-                transform: translate3d(calc(var(--tx,0)*1px), calc(var(--ty,-150)*1px), calc(var(--tz,80)*1px))
-                           scale(2.0) rotate(calc(var(--rot,30)*1deg));
-                opacity: 0.9;
-            }
-            70% {
-                transform: translate3d(calc(var(--tx,0)*0.4px), calc(var(--ty,-200)*0.7px), calc(var(--tz,120)*0.4px))
-                           scale(0.6) rotate(calc(var(--rot,-20)*1deg));
-                opacity: 0.5;
-            }
-            100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); opacity: 0.85; }
-        }
-        .input-pill.flow { animation: flowOut 1.2s cubic-bezier(0.2, 0.8, 0.4, 1) forwards; }
-
+        .input-wrapper:focus-within { box-shadow: 0 4px 20px rgba(16,185,129,0.22); }
         .laughing-link-icon {
             display: flex; align-items: center; justify-content: center;
             width: 40px; height: 40px;
             background: rgba(16,185,129,0.12); border-radius: 50%;
             color: var(--accent); margin-right: 8px;
             cursor: pointer; transition: background .3s, transform .2s;
-            z-index: 2; flex-shrink: 0;
+            flex-shrink: 0;
         }
-        .laughing-link-icon:hover {
-            background: var(--accent); color: white; transform: scale(1.05);
-        }
+        .laughing-link-icon:hover { background: var(--accent); color: white; transform: scale(1.05); }
         .laughing-link-icon svg { width: 18px; height: 18px; }
         .mic-btn {
             background: rgba(16,185,129,0.12); border: none;
@@ -724,8 +622,7 @@
             margin-right: 8px; width: 40px; height: 40px;
             border-radius: 50%; display: flex;
             align-items: center; justify-content: center;
-            transition: all .3s; z-index: 2;
-            flex-shrink: 0; font-size: 16px;
+            transition: all .3s; flex-shrink: 0; font-size: 16px;
         }
         .mic-btn:hover { background: var(--accent); color: white; }
         .mic-btn.listening {
@@ -740,8 +637,8 @@
         input[type="text"] {
             flex: 1; background: transparent; border: none;
             color: var(--text); padding: 10px 4px; outline: none;
-            font-size: 15px; position: relative; z-index: 2;
-            caret-color: var(--accent); font-family: 'Poppins', sans-serif;
+            font-size: 15px; caret-color: var(--accent);
+            font-family: 'Poppins', sans-serif;
         }
         input[type="text"]::placeholder { color: var(--text-muted); opacity: 0.75; }
         .send-btn {
@@ -749,13 +646,12 @@
             color: white; border: none; border-radius: 50%;
             width: 42px; height: 42px; cursor: pointer;
             font-size: 16px; transition: transform .2s, box-shadow .2s;
-            z-index: 2; box-shadow: 0 2px 8px rgba(16,185,129,0.35);
+            box-shadow: 0 2px 8px rgba(16,185,129,0.35);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
         .send-btn:hover { transform: scale(1.08); box-shadow: 0 4px 15px rgba(16,185,129,0.5); }
 
-        /* Source panel */
         .source-panel {
             position: absolute; right: -320px; top: 0; bottom: 0;
             width: 320px; background: var(--bg-glass-strong);
@@ -778,7 +674,6 @@
         }
         .close-panel:hover { background: var(--glow); color: var(--accent); }
 
-        /* Disclaimer */
         .disclaimer-bar {
             padding: 6px 30px; text-align: center; font-size: 11px;
             color: var(--text-muted); background: rgba(16,185,129,0.06);
@@ -786,13 +681,11 @@
         }
         .disclaimer-bar i { color: var(--accent); margin-right: 4px; }
 
-        /* Confetti */
         @keyframes confettiFall {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(200px) rotate(720deg); opacity: 0; }
         }
 
-        /* Mobile */
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed; top: 0; left: 0; height: 100%;
@@ -802,7 +695,15 @@
             }
             .sidebar.open { transform: translateX(0); }
             .sidebar:hover { width: 280px; }
-            .sidebar .logo, .sidebar .sidebar-btn, .sidebar .history-section { opacity: 1; }
+            /* On mobile, always show everything */
+            .sidebar .sidebar-btn-group,
+            .sidebar .sidebar-date,
+            .sidebar .history-section {
+                opacity: 1 !important;
+                max-height: none !important;
+                pointer-events: auto !important;
+            }
+            .sidebar .logo-text { opacity: 1; }
             .mobile-menu-btn {
                 display: flex !important; align-items: center; justify-content: center;
                 width: 36px; height: 36px; background: transparent;
@@ -824,14 +725,12 @@
             .messages-container { padding: 18px 16px; }
             .input-container { padding: 12px 16px 16px; }
             .disclaimer-bar { padding: 6px 16px; font-size: 10px; }
-            .profile-menu {
-                right: 12px; top: 58px;
-                width: calc(100vw - 24px);
-            }
+            .profile-menu { right: 12px; top: 58px; width: calc(100vw - 24px); }
             .dashboard-container { padding: 20px 16px; }
             .dash-header h2 { font-size: 20px; }
             .prescription-grid { grid-template-columns: 1fr; }
             .file-actions { flex-direction: column; }
+            .float-pill { opacity: 0.22; }
         }
         @media (min-width: 769px) {
             .mobile-menu-btn { display: none !important; }
@@ -842,46 +741,59 @@
 <body>
 
     <canvas id="particleCanvas"></canvas>
+
+    <!-- FLOATING PILLS BACKGROUND -->
     <div class="pills-bg">
         <div class="float-pill p1"></div>
         <div class="float-pill p2"></div>
         <div class="float-pill p3"></div>
         <div class="float-pill p4"></div>
         <div class="float-pill p5"></div>
+        <div class="float-pill p6"></div>
+        <div class="float-pill p7"></div>
+        <div class="float-pill p8"></div>
+        <div class="float-pill p9"></div>
+        <div class="float-pill p10"></div>
     </div>
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
     <div class="app-container">
-
         <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="logo">
                 <i class="fas fa-eye"></i>
-                <span>Pharma<span>Lens</span></span>
+                <span class="logo-text">Pharma<span>Lens</span></span>
             </div>
+
             <div class="sidebar-btn-group">
                 <button class="sidebar-btn btn-new" onclick="newChat()">
-                    <i class="fas fa-plus-circle"></i> New Chat
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="btn-label">New Chat</span>
                 </button>
                 <button class="sidebar-btn btn-clear" onclick="clearChat()">
-                    <i class="fas fa-trash-alt"></i> Clear Chat
+                    <i class="fas fa-trash-alt"></i>
+                    <span class="btn-label">Clear Chat</span>
                 </button>
             </div>
+
+            <div class="sidebar-date">
+                <i class="fas fa-calendar-day"></i>
+                <span class="date-label" id="todayDateText">Today</span>
+            </div>
+
             <div class="history-section" id="historySection"></div>
         </aside>
 
         <!-- MAIN -->
         <main class="chat-area" id="chatArea">
-
-            <!-- Header -->
             <div class="chat-header">
                 <div class="left">
                     <button class="mobile-menu-btn" onclick="openSidebar()">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <i class="fas fa-comment-medical main-icon"></i>
-                    <h3 id="viewTitle">Drug Information Assistant</h3>
+                    <i class="fas fa-eye main-icon"></i>
+                    <h3 id="viewTitle">PharmaLens</h3>
                 </div>
                 <div class="right">
                     <div class="user-chip" id="userChip" onclick="toggleProfileMenu(event)">
@@ -889,10 +801,9 @@
                         <span class="name" id="userName">User</span>
                         <i class="fas fa-chevron-down chevron"></i>
                     </div>
-                    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" style="width:60px;height:28px;">
-                        <div class="knob" style="width:20px;height:20px;font-size:11px;">
-                            <span class="icon-sun">☀️</span>
-                            <span class="icon-moon">🌙</span>
+                    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                        <div class="knob">
+                            <i class="fas fa-sun" id="knobIcon"></i>
                         </div>
                     </div>
                 </div>
@@ -908,7 +819,6 @@
                     <div class="profile-menu-name" id="profileMenuName">User</div>
                     <div class="profile-menu-email" id="profileMenuEmail">user@email.com</div>
                 </div>
-
                 <div class="profile-menu-group">
                     <button class="profile-menu-item" onclick="switchView('chat')">
                         <i class="fas fa-comments"></i>
@@ -928,9 +838,7 @@
                         <span class="item-label">Dosage Timings</span>
                     </button>
                 </div>
-
                 <div class="profile-menu-divider"></div>
-
                 <div class="profile-menu-group">
                     <button class="profile-menu-item" onclick="openSettings()">
                         <i class="fas fa-user-cog"></i>
@@ -952,9 +860,7 @@
                         <span class="item-label">Contact Doctor / SOS</span>
                     </button>
                 </div>
-
                 <div class="profile-menu-divider"></div>
-
                 <div class="profile-menu-group">
                     <button class="profile-menu-item signout" onclick="signOut()">
                         <i class="fas fa-sign-out-alt"></i>
@@ -965,14 +871,10 @@
 
             <!-- VIEW CONTAINER -->
             <div class="view-container">
-
-                <!-- ===== CHAT VIEW ===== -->
                 <div class="view active" id="view-chat">
                     <div class="messages-container" id="messagesContainer"></div>
-
                     <div class="input-container">
-                        <div class="input-wrapper" id="inputWrapper">
-                            <div class="pill-container" id="pillContainer"></div>
+                        <div class="input-wrapper">
                             <input type="file" id="fileUpload" style="display:none;" accept=".pdf,.jpg,.png" onchange="handleFileUpload(this)" />
                             <div class="laughing-link-icon" onclick="document.getElementById('fileUpload').click()" title="Upload PDF">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -992,14 +894,12 @@
                     </div>
                 </div>
 
-                <!-- ===== FILES DASHBOARD ===== -->
                 <div class="view" id="view-files">
                     <div class="dashboard-container">
                         <div class="dash-header">
                             <h2><i class="fas fa-folder-open"></i> Uploaded Files</h2>
                             <p>Manage your medical documents, prescriptions, and drug labels</p>
                         </div>
-
                         <div class="dash-stats">
                             <div class="stat-card">
                                 <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
@@ -1007,21 +907,16 @@
                                 <div class="stat-label">Total Files</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
-                                    <i class="fas fa-hdd"></i>
-                                </div>
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);"><i class="fas fa-hdd"></i></div>
                                 <div class="stat-value" id="statStorage">0 MB</div>
                                 <div class="stat-label">Storage Used</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
-                                    <i class="fas fa-clock"></i>
-                                </div>
+                                <div class="stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);"><i class="fas fa-clock"></i></div>
                                 <div class="stat-value" id="statLatest">—</div>
                                 <div class="stat-label">Last Upload</div>
                             </div>
                         </div>
-
                         <div class="upload-zone" id="uploadZone" onclick="document.getElementById('dashboardFileInput').click()">
                             <i class="fas fa-cloud-upload-alt"></i>
                             <h3>Drag & drop files here</h3>
@@ -1031,7 +926,6 @@
                             </button>
                             <input type="file" id="dashboardFileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.txt" style="display:none;" onchange="handleDashboardUpload(this)" />
                         </div>
-
                         <div class="file-list-section">
                             <div class="file-list-header">
                                 <h3><i class="fas fa-list"></i> Your Files</h3>
@@ -1042,7 +936,6 @@
                     </div>
                 </div>
 
-                <!-- ===== PRESCRIPTIONS DASHBOARD ===== -->
                 <div class="view" id="view-prescriptions">
                     <div class="dashboard-container">
                         <div class="dash-header">
@@ -1053,7 +946,6 @@
                     </div>
                 </div>
 
-                <!-- ===== DOSAGE DASHBOARD ===== -->
                 <div class="view" id="view-dosage">
                     <div class="dashboard-container">
                         <div class="dash-header">
@@ -1063,10 +955,8 @@
                         <div class="dosage-list" id="dosageList"></div>
                     </div>
                 </div>
-
             </div>
 
-            <!-- Source panel -->
             <div class="source-panel" id="sourcePanel">
                 <div class="source-header">
                     <h4><i class="fas fa-book-open"></i> Source Citation</h4>
@@ -1075,7 +965,6 @@
                 <div id="sourceContent"></div>
             </div>
 
-            <!-- Disclaimer -->
             <div class="disclaimer-bar">
                 <i class="fas fa-shield-alt"></i>
                 Not medical advice · Not a substitute for official prescribing information
@@ -1089,12 +978,20 @@
         // ============================================================
         function toggleTheme() {
             document.body.classList.toggle('dark');
-            localStorage.setItem('pharmalens-theme',
-                document.body.classList.contains('dark') ? 'dark' : 'light');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('pharmalens-theme', isDark ? 'dark' : 'light');
+            const icon = document.getElementById('knobIcon');
+            if (icon) icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
         }
-        if (localStorage.getItem('pharmalens-theme') === 'dark') {
-            document.body.classList.add('dark');
-        }
+        (function() {
+            if (localStorage.getItem('pharmalens-theme') === 'dark') {
+                document.body.classList.add('dark');
+            }
+            setTimeout(() => {
+                const icon = document.getElementById('knobIcon');
+                if (icon) icon.className = document.body.classList.contains('dark') ? 'fas fa-moon' : 'fas fa-sun';
+            }, 30);
+        })();
 
         // ============================================================
         // USER INFO
@@ -1116,10 +1013,20 @@
             document.getElementById('profileAvatarLg').childNodes[0].textContent = initial;
             document.getElementById('profileMenuName').textContent = currentUser.name + ' · ' + (currentUser.role === 'practitioner' ? 'practitioner' : 'private');
             document.getElementById('profileMenuEmail').textContent = currentUser.email;
-            // Role badge icon
             document.getElementById('roleBadge').innerHTML = currentUser.role === 'practitioner'
                 ? '<i class="fas fa-user-md"></i>'
                 : '<i class="fas fa-user"></i>';
+        })();
+
+        // ============================================================
+        // TODAY'S DATE
+        // ============================================================
+        (function() {
+            const now = new Date();
+            const options = { weekday: 'short', month: 'short', day: 'numeric' };
+            const dateStr = now.toLocaleDateString('en-US', options);
+            const el = document.getElementById('todayDateText');
+            if (el) el.textContent = dateStr;
         })();
 
         // ============================================================
@@ -1158,21 +1065,18 @@
         // VIEW SWITCHER
         // ============================================================
         const viewTitles = {
-            chat: 'Drug Information Assistant',
+            chat: 'PharmaLens',
             files: 'Uploaded Files',
             prescriptions: 'Medical Prescriptions',
             dosage: 'Dosage Timings'
         };
-
         function switchView(viewName) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             const target = document.getElementById('view-' + viewName);
             if (target) target.classList.add('active');
             document.getElementById('viewTitle').textContent = viewTitles[viewName] || 'PharmaLens';
-            // Close profile menu
             document.getElementById('profileMenu').classList.remove('open');
             document.getElementById('userChip').classList.remove('open');
-            // Refresh dashboard content
             if (viewName === 'files') renderFilesDashboard();
             if (viewName === 'prescriptions') renderPrescriptions();
             if (viewName === 'dosage') renderDosage();
@@ -1371,17 +1275,14 @@
                 if (raw) uploadedFiles = JSON.parse(raw);
             } catch(e) { uploadedFiles = []; }
         })();
-
         function saveFiles() {
             localStorage.setItem('pharmalens-files', JSON.stringify(uploadedFiles));
             updateFilesBadge();
         }
-
         function updateFilesBadge() {
             const badge = document.getElementById('filesCountBadge');
             if (badge) badge.textContent = uploadedFiles.length;
         }
-
         function formatSize(bytes) {
             if (bytes < 1024) return bytes + ' B';
             if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
@@ -1408,20 +1309,13 @@
             if (n.endsWith('.txt')) return 'fa-file-alt';
             return 'fa-file';
         }
-
         function renderFilesDashboard() {
             const list = document.getElementById('fileList');
             const countLabel = document.getElementById('fileCountLabel');
             if (!list) return;
             list.innerHTML = '';
-
             if (uploadedFiles.length === 0) {
-                list.innerHTML = `
-                    <div class="empty-files">
-                        <i class="fas fa-folder-open"></i>
-                        <p>No files uploaded yet</p>
-                    </div>
-                `;
+                list.innerHTML = `<div class="empty-files"><i class="fas fa-folder-open"></i><p>No files uploaded yet</p></div>`;
             } else {
                 uploadedFiles.forEach(file => {
                     const row = document.createElement('div');
@@ -1440,21 +1334,14 @@
                             </div>
                         </div>
                         <div class="file-actions">
-                            <button class="file-action-btn" title="View" onclick="viewFile('${file.id}')">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="file-action-btn" title="Download" onclick="downloadFile('${file.id}')">
-                                <i class="fas fa-download"></i>
-                            </button>
-                            <button class="file-action-btn delete" title="Delete" onclick="deleteFile('${file.id}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <button class="file-action-btn" title="View" onclick="viewFile('${file.id}')"><i class="fas fa-eye"></i></button>
+                            <button class="file-action-btn" title="Download" onclick="downloadFile('${file.id}')"><i class="fas fa-download"></i></button>
+                            <button class="file-action-btn delete" title="Delete" onclick="deleteFile('${file.id}')"><i class="fas fa-trash"></i></button>
                         </div>
                     `;
                     list.appendChild(row);
                 });
             }
-
             countLabel.textContent = uploadedFiles.length + ' file' + (uploadedFiles.length !== 1 ? 's' : '');
             document.getElementById('statTotal').textContent = uploadedFiles.length;
             const totalBytes = uploadedFiles.reduce((sum, f) => sum + (f.size || 0), 0);
@@ -1466,15 +1353,12 @@
                 document.getElementById('statLatest').textContent = '—';
             }
         }
-
         function handleDashboardUpload(input) {
             if (!input.files) return;
             Array.from(input.files).forEach(file => {
                 uploadedFiles.push({
                     id: 'file-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
-                    name: file.name,
-                    size: file.size,
-                    type: file.type,
+                    name: file.name, size: file.size, type: file.type,
                     uploadedAt: new Date().toISOString()
                 });
             });
@@ -1482,7 +1366,6 @@
             renderFilesDashboard();
             input.value = '';
         }
-
         function deleteFile(id) {
             if (!confirm('Delete this file?')) return;
             uploadedFiles = uploadedFiles.filter(f => f.id !== id);
@@ -1499,15 +1382,10 @@
             if (!f) return;
             alert(`⬇️ Downloading ${f.name}…\n\n(File download will work when backend is connected.)`);
         }
-
-        // Drag & drop on upload zone
         (function() {
             const zone = document.getElementById('uploadZone');
             if (!zone) return;
-            zone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                zone.classList.add('dragover');
-            });
+            zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('dragover'); });
             zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
             zone.addEventListener('drop', (e) => {
                 e.preventDefault();
@@ -1528,32 +1406,10 @@
         // PRESCRIPTIONS
         // ============================================================
         const samplePrescriptions = [
-            {
-                id: 'rx-1',
-                title: 'Rinvoq (Upadacitinib) 15mg',
-                doctor: 'Dr. Sarah Mitchell',
-                date: '2026-09-05',
-                status: 'Active',
-                details: 'Take 1 tablet once daily. Duration: 3 months. Refills: 2 remaining.'
-            },
-            {
-                id: 'rx-2',
-                title: 'Methotrexate 10mg',
-                doctor: 'Dr. James Chen',
-                date: '2026-08-20',
-                status: 'Active',
-                details: 'Take once weekly on Mondays. Folic acid 5mg daily. Duration: 6 months.'
-            },
-            {
-                id: 'rx-3',
-                title: 'Ibuprofen 400mg',
-                doctor: 'Dr. Sarah Mitchell',
-                date: '2026-07-15',
-                status: 'Completed',
-                details: 'Take 1 tablet every 8 hours as needed. Max 3 per day. Duration: 7 days.'
-            }
+            { id: 'rx-1', title: 'Rinvoq (Upadacitinib) 15mg', doctor: 'Dr. Sarah Mitchell', date: '2026-09-05', status: 'Active', details: 'Take 1 tablet once daily. Duration: 3 months. Refills: 2 remaining.' },
+            { id: 'rx-2', title: 'Methotrexate 10mg', doctor: 'Dr. James Chen', date: '2026-08-20', status: 'Active', details: 'Take once weekly on Mondays. Folic acid 5mg daily. Duration: 6 months.' },
+            { id: 'rx-3', title: 'Ibuprofen 400mg', doctor: 'Dr. Sarah Mitchell', date: '2026-07-15', status: 'Completed', details: 'Take 1 tablet every 8 hours as needed. Max 3 per day. Duration: 7 days.' }
         ];
-
         function renderPrescriptions() {
             const grid = document.getElementById('prescriptionGrid');
             if (!grid) return;
@@ -1588,7 +1444,6 @@
             { id: 'd4', time: '08:00', period: 'PM', name: 'Methotrexate 10mg', dose: '1 tablet (Mondays only)', note: 'Take with dinner', done: false },
             { id: 'd5', time: '10:00', period: 'PM', name: 'Calcium 500mg', dose: '1 tablet', note: 'Take before bed', done: false }
         ];
-
         function renderDosage() {
             const list = document.getElementById('dosageList');
             if (!list) return;
@@ -1613,7 +1468,6 @@
                 list.appendChild(item);
             });
         }
-
         function toggleDosage(id, el) {
             const d = sampleDosages.find(x => x.id === id);
             if (!d) return;
@@ -1971,57 +1825,17 @@
         initParticles(); animateParticles();
 
         // ============================================================
-        // PILLS IN INPUT
+        // MOUSE PARALLAX ON PILLS
         // ============================================================
-        (function initPillFlow() {
-            const container = document.getElementById('pillContainer');
-            const input = document.getElementById('userInput');
-            if (!container || !input) return;
-            const pills = [];
-            const colors = [
-                ['#10b981','#059669'], ['#34d399','#10b981'], ['#6ee7b7','#34d399'],
-                ['#a7f3d0','#6ee7b7'], ['#14b8a6','#0d9488'], ['#22c55e','#16a34a'],
-                ['#4ade80','#22c55e'], ['#86efac','#4ade80']
-            ];
-            for (let i = 0; i < 20; i++) {
-                const pill = document.createElement('div');
-                pill.className = 'input-pill';
-                const w = 18 + Math.random() * 16;
-                const h = 10 + Math.random() * 10;
-                pill.style.width = w + 'px';
-                pill.style.height = h + 'px';
-                pill.style.left = (3 + Math.random() * 86) + '%';
-                pill.style.top = (8 + Math.random() * 80) + '%';
-                const col = colors[Math.floor(Math.random() * colors.length)];
-                pill.style.background = `linear-gradient(135deg, ${col[0]}, ${col[1]})`;
-                pill.style.transform = `rotate(${Math.random() * 360}deg)`;
-                pill.style.animationDelay = (Math.random() * 4) + 's';
-                const tx = (Math.random() - 0.5) * 300;
-                const ty = -120 - Math.random() * 180;
-                const tz = 80 + Math.random() * 140;
-                const rot = (Math.random() - 0.5) * 180;
-                pill.style.setProperty('--tx', tx);
-                pill.style.setProperty('--ty', ty);
-                pill.style.setProperty('--tz', tz);
-                pill.style.setProperty('--rot', rot);
-                container.appendChild(pill);
-                pills.push(pill);
-            }
-            let last = 0;
-            input.addEventListener('input', function() {
-                const now = Date.now();
-                if (now - last < 200) return;
-                last = now;
-                const shuffled = pills.slice().sort(() => Math.random() - 0.5);
-                const count = Math.max(4, Math.floor(pills.length * 0.3));
-                shuffled.slice(0, count).forEach(pill => {
-                    pill.classList.remove('flow');
-                    void pill.offsetWidth;
-                    pill.classList.add('flow');
-                    setTimeout(() => pill.classList.remove('flow'), 1400);
-                });
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 24;
+            const y = (e.clientY / window.innerHeight - 0.5) * 24;
+            document.querySelectorAll('.float-pill').forEach((pill, i) => {
+                const factor = (i % 3 + 1) * 0.6;
+                pill.style.marginLeft = (x * factor) + 'px';
+                pill.style.marginTop = (y * factor) + 'px';
             });
-        })();
+        });
 
         // ============================================================
         // INIT
