@@ -235,7 +235,7 @@
     </div>
 
     <script>
-        // Theme
+        // Theme toggle
         function toggleTheme() {
             document.body.classList.toggle('dark');
             localStorage.setItem('pharmalens-theme',
@@ -247,7 +247,6 @@
 
         // Role selection
         function selectRole(role) {
-            // Save role to the user object
             const userRaw = localStorage.getItem('pharmalens-user');
             let user = {};
             if (userRaw) { try { user = JSON.parse(userRaw); } catch(e) {} }
@@ -255,7 +254,7 @@
             user.roleSelectedAt = new Date().toISOString();
             localStorage.setItem('pharmalens-user', JSON.stringify(user));
 
-            // Redirect to app
+            // Go to app
             window.location.href = 'app.html';
         }
 
@@ -323,7 +322,7 @@
         }
         initParticles(); animateParticles();
 
-        // Subtle mouse parallax
+        // Mouse parallax on pills
         document.addEventListener('mousemove', (e) => {
             const x = (e.clientX / window.innerWidth - 0.5) * 20;
             const y = (e.clientY / window.innerHeight - 0.5) * 20;
