@@ -27,6 +27,29 @@
             --input-bg: rgba(20, 38, 30, 0.7);
             --toggle-bg: #1f3b2e; --toggle-icon-color: #34d399;
         }
+        body.role-practitioner {
+            --accent: #0d9488;
+            --accent-dark: #0f766e;
+            --accent-light: #2dd4bf;
+            --border: rgba(13, 148, 136, 0.2);
+            --glow: rgba(13, 148, 136, 0.22);
+            --bg-secondary: #f0fdfa;
+            --bg-tertiary: #ccfbf1;
+        }
+        body.role-practitioner.dark {
+            --bg-secondary: #0f2624;
+            --bg-tertiary: #0a1a18;
+            --accent: #2dd4bf;
+            --accent-dark: #14b8a6;
+            --accent-light: #5eead4;
+        }
+        body.role-patient {
+            --accent: #10b981;
+            --accent-dark: #059669;
+            --bg-secondary: #f0fdf4;
+            --bg-tertiary: #ecfdf5;
+        }
+
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
         body {
             color: var(--text); height: 100vh; overflow: hidden;
@@ -77,6 +100,35 @@
         .logo-text { opacity: 0; transition: opacity .25s .05s; white-space: nowrap; }
         .logo-text span { color: var(--accent); }
         .sidebar:hover .logo-text { opacity: 1; }
+
+        .role-pill {
+            padding: 6px 2px 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+            transition: opacity .25s ease, max-height .35s ease;
+        }
+        .sidebar:hover .role-pill { opacity: 1; max-height: 50px; }
+        .role-pill i {
+            font-size: 16px;
+            color: var(--accent);
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .role-pill span {
+            font-size: 11.5px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background: var(--glow);
+            white-space: nowrap;
+        }
 
         .sidebar-btn-group {
             display: flex; flex-direction: column; gap: 6px;
@@ -182,7 +234,7 @@
             padding: 5px 10px 5px 5px; background: var(--input-bg);
             border: 1px solid var(--border); border-radius: 20px;
             font-size: 12.5px; color: var(--text-secondary);
-            font-weight: 500; max-width: 200px; cursor: pointer;
+            font-weight: 500; max-width: 220px; cursor: pointer;
             transition: background .2s, border .2s, box-shadow .2s;
             user-select: none;
         }
@@ -290,7 +342,7 @@
         .messages-container::-webkit-scrollbar { width: 6px; }
         .messages-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
 
-        .initial-state { margin: auto; text-align: center; max-width: 600px; position: relative; z-index: 5; }
+        .initial-state { margin: auto; text-align: center; max-width: 640px; position: relative; z-index: 5; }
         .initial-state h2 { margin-bottom: 10px; color: var(--text); font-size: 1.8rem; font-weight: 600; }
         .initial-state h2 span {
             background: linear-gradient(135deg, var(--accent), var(--accent-dark));
@@ -308,8 +360,9 @@
         .suggestion-btn:hover {
             background: var(--accent); color: white;
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 6px 15px rgba(16,185,129,0.3);
+            box-shadow: 0 6px 15px var(--glow);
         }
+        .suggestion-btn i { margin-right: 6px; }
 
         .message {
             max-width: 72%; padding: 13px 18px; border-radius: 16px;
@@ -322,7 +375,7 @@
             align-self: flex-end;
             background: linear-gradient(45deg, var(--accent), var(--accent-dark));
             color: white; border-bottom-right-radius: 5px;
-            box-shadow: 0 4px 12px rgba(16,185,129,0.25);
+            box-shadow: 0 4px 12px var(--glow);
         }
         .message.bot {
             align-self: flex-start; background: var(--bg-glass-strong);
@@ -351,7 +404,7 @@
             transition: background .2s, transform .2s;
         }
         body.dark .citation-chip { color: var(--accent-light); }
-        .citation-chip:hover { background: rgba(16,185,129,0.22); transform: translateY(-1px); }
+        .citation-chip:hover { background: var(--glow); transform: translateY(-1px); }
         .typing-indicator { display: inline-flex; align-items: center; gap: 5px; padding: 3px 0; }
         .typing-dot { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
@@ -376,7 +429,7 @@
         .back-btn:hover {
             background: var(--accent); color: white;
             transform: translateX(-3px);
-            box-shadow: 0 6px 18px rgba(16,185,129,0.3);
+            box-shadow: 0 6px 18px var(--glow);
             border-color: var(--accent);
         }
         .dash-header-text { flex: 1; }
@@ -407,7 +460,7 @@
             margin-bottom: 26px; cursor: pointer; transition: all .3s;
         }
         .upload-zone:hover, .upload-zone.dragover {
-            background: rgba(16,185,129,0.08);
+            background: var(--glow);
             border-color: var(--accent-dark);
             transform: scale(1.005);
         }
@@ -431,7 +484,7 @@
         .file-list-header {
             display: flex; align-items: center; justify-content: space-between;
             padding: 16px 20px; border-bottom: 1px solid var(--border);
-            background: rgba(16,185,129,0.05);
+            background: var(--glow);
         }
         .file-list-header h3 { font-size: 14.5px; font-weight: 600; color: var(--text); }
         .file-list-header h3 i { color: var(--accent); margin-right: 8px; }
@@ -500,7 +553,7 @@
         }
         .prescription-card .p-badge {
             font-size: 10px; padding: 3px 10px; border-radius: 20px;
-            background: rgba(16,185,129,0.15); color: var(--accent-dark); font-weight: 600;
+            background: var(--glow); color: var(--accent-dark); font-weight: 600;
         }
         .prescription-card .p-title { font-size: 14.5px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
         .prescription-card .p-details { font-size: 12px; color: var(--text-muted); line-height: 1.55; }
@@ -551,10 +604,10 @@
             border: 2px solid var(--accent); border-radius: 50px;
             padding: 6px 10px; position: relative;
             min-height: 56px;
-            box-shadow: 0 4px 15px rgba(16,185,129,0.1);
+            box-shadow: 0 4px 15px var(--glow);
             transition: border .2s, box-shadow .2s;
         }
-        .input-wrapper:focus-within { box-shadow: 0 4px 20px rgba(16,185,129,0.22); }
+        .input-wrapper:focus-within { box-shadow: 0 4px 20px var(--glow); }
         .laughing-link-icon {
             display: flex; align-items: center; justify-content: center;
             width: 40px; height: 40px;
@@ -595,11 +648,11 @@
             color: white; border: none; border-radius: 50%;
             width: 42px; height: 42px; cursor: pointer;
             font-size: 16px; transition: transform .2s, box-shadow .2s;
-            box-shadow: 0 2px 8px rgba(16,185,129,0.35);
+            box-shadow: 0 2px 8px var(--glow);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
-        .send-btn:hover { transform: scale(1.08); box-shadow: 0 4px 15px rgba(16,185,129,0.5); }
+        .send-btn:hover { transform: scale(1.08); box-shadow: 0 4px 15px var(--glow); }
 
         .source-panel {
             position: absolute; right: -320px; top: 0; bottom: 0;
@@ -625,186 +678,84 @@
 
         .disclaimer-bar {
             padding: 6px 30px; text-align: center; font-size: 11px;
-            color: var(--text-muted); background: rgba(16,185,129,0.06);
+            color: var(--text-muted); background: var(--glow);
             border-top: 1px solid var(--border); flex-shrink: 0; z-index: 15;
         }
         .disclaimer-bar i { color: var(--accent); margin-right: 4px; }
 
         .toast {
-            position: fixed;
-            top: 50%;
-            left: 50%;
+            position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0.85);
             background: var(--bg-glass-strong);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1.5px solid var(--accent);
-            color: var(--text);
-            padding: 14px 26px;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 500;
-            box-shadow: 0 12px 40px rgba(16, 185, 129, 0.35);
-            z-index: 900;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0;
-            transition: opacity .3s ease, transform .4s cubic-bezier(0.2, 0.8, 0.4, 1);
-            pointer-events: none;
-            max-width: calc(100vw - 40px);
+            color: var(--text); padding: 14px 26px;
+            border-radius: 40px; font-size: 14px; font-weight: 500;
+            box-shadow: 0 12px 40px var(--glow);
+            z-index: 900; display: flex; align-items: center; gap: 12px;
+            opacity: 0; transition: opacity .3s ease, transform .4s cubic-bezier(0.2, 0.8, 0.4, 1);
+            pointer-events: none; max-width: calc(100vw - 40px);
         }
-        .toast.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
+        .toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         .toast i { color: var(--accent); font-size: 18px; flex-shrink: 0; }
 
         .modal-overlay {
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-            opacity: 0;
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1000; padding: 20px; opacity: 0;
             transition: opacity .25s ease;
         }
-        .modal-overlay.show {
-            display: flex;
-            opacity: 1;
-        }
+        .modal-overlay.show { display: flex; opacity: 1; }
         .modal-box {
             background: var(--bg-glass-strong);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--border);
-            border-radius: 22px;
-            padding: 30px 28px 24px;
-            max-width: 420px;
-            width: 100%;
-            box-shadow: 0 24px 60px rgba(16, 185, 129, 0.28), 0 8px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border); border-radius: 22px;
+            padding: 30px 28px 24px; max-width: 420px; width: 100%;
+            box-shadow: 0 24px 60px var(--glow), 0 8px 30px rgba(0,0,0,0.2);
             transform: scale(0.88) translateY(20px);
             transition: transform .35s cubic-bezier(0.2, 0.8, 0.4, 1);
-            text-align: center;
-            position: relative;
+            text-align: center; position: relative;
         }
-        .modal-overlay.show .modal-box {
-            transform: scale(1) translateY(0);
-        }
+        .modal-overlay.show .modal-box { transform: scale(1) translateY(0); }
         .modal-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
+            width: 64px; height: 64px; border-radius: 50%;
             background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 16px;
-            font-size: 26px;
-            color: white;
-            box-shadow: 0 10px 28px rgba(16, 185, 129, 0.4);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px; font-size: 26px; color: white;
+            box-shadow: 0 10px 28px var(--glow);
             animation: modalIconIn 0.5s cubic-bezier(0.2, 0.8, 0.4, 1);
         }
-        @keyframes modalIconIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .modal-icon.danger {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            box-shadow: 0 10px 28px rgba(239, 68, 68, 0.4);
-        }
-        .modal-icon.warning {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            box-shadow: 0 10px 28px rgba(245, 158, 11, 0.4);
-        }
-        .modal-icon.success {
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-        }
-        .modal-title {
-            font-size: 19px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 8px;
-        }
-        .modal-message {
-            font-size: 13.5px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 22px;
-            white-space: pre-line;
-        }
-        .modal-input-wrap {
-            display: none;
-            margin-bottom: 20px;
-        }
+        @keyframes modalIconIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .modal-icon.danger { background: linear-gradient(135deg, #ef4444, #dc2626); box-shadow: 0 10px 28px rgba(239, 68, 68, 0.4); }
+        .modal-icon.warning { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 10px 28px rgba(245, 158, 11, 0.4); }
+        .modal-icon.success { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); }
+        .modal-title { font-size: 19px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+        .modal-message { font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 22px; white-space: pre-line; }
+        .modal-input-wrap { display: none; margin-bottom: 20px; }
         .modal-input {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1.5px solid var(--border);
-            background: var(--input-bg);
-            color: var(--text);
-            font-size: 14px;
-            font-family: 'Poppins', sans-serif;
-            outline: none;
+            width: 100%; padding: 12px 16px; border-radius: 12px;
+            border: 1.5px solid var(--border); background: var(--input-bg);
+            color: var(--text); font-size: 14px;
+            font-family: 'Poppins', sans-serif; outline: none;
             transition: border .2s, box-shadow .2s;
         }
-        .modal-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
-        }
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        .modal-input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--glow); }
+        .modal-buttons { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
         .modal-btn {
-            padding: 12px 26px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            cursor: pointer;
-            border: none;
-            transition: transform .2s, box-shadow .2s, background .2s, filter .2s;
+            padding: 12px 26px; border-radius: 12px;
+            font-size: 14px; font-weight: 600;
+            font-family: 'Poppins', sans-serif; cursor: pointer;
+            border: none; transition: transform .2s, box-shadow .2s, background .2s, filter .2s;
             min-width: 110px;
         }
-        .modal-btn.primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: white;
-            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
-        }
-        .modal-btn.primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 26px rgba(16, 185, 129, 0.45);
-            filter: brightness(1.05);
-        }
-        .modal-btn.danger {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            box-shadow: 0 6px 18px rgba(239, 68, 68, 0.35);
-        }
-        .modal-btn.danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 26px rgba(239, 68, 68, 0.45);
-            filter: brightness(1.05);
-        }
-        .modal-btn.secondary {
-            background: var(--input-bg);
-            color: var(--text);
-            border: 1.5px solid var(--border);
-        }
-        .modal-btn.secondary:hover {
-            background: var(--glow);
-            transform: translateY(-2px);
-            border-color: var(--accent);
-        }
+        .modal-btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: white; box-shadow: 0 6px 18px var(--glow); }
+        .modal-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 10px 26px var(--glow); filter: brightness(1.05); }
+        .modal-btn.danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; box-shadow: 0 6px 18px rgba(239, 68, 68, 0.35); }
+        .modal-btn.danger:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(239, 68, 68, 0.45); filter: brightness(1.05); }
+        .modal-btn.secondary { background: var(--input-bg); color: var(--text); border: 1.5px solid var(--border); }
+        .modal-btn.secondary:hover { background: var(--glow); transform: translateY(-2px); border-color: var(--accent); }
 
         @keyframes confettiFall {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
@@ -822,9 +773,8 @@
             .sidebar:hover { width: 280px; }
             .sidebar .sidebar-btn-group,
             .sidebar .sidebar-date,
-            .sidebar .history-section {
-                opacity: 1 !important; max-height: none !important; pointer-events: auto !important;
-            }
+            .sidebar .history-section,
+            .sidebar .role-pill { opacity: 1 !important; max-height: none !important; pointer-events: auto !important; }
             .sidebar .logo-text { opacity: 1; }
             .mobile-menu-btn {
                 display: flex !important; align-items: center; justify-content: center;
@@ -903,6 +853,11 @@
                 <span class="logo-text">Pharma<span>Lens</span></span>
             </div>
 
+            <div class="role-pill" id="rolePill">
+                <i class="fas fa-user" id="rolePillIcon"></i>
+                <span id="rolePillText">Patient</span>
+            </div>
+
             <div class="sidebar-btn-group">
                 <button class="sidebar-btn btn-new" onclick="newChat()">
                     <i class="fas fa-plus-circle"></i>
@@ -957,25 +912,7 @@
                     <div class="profile-menu-name" id="profileMenuName">User</div>
                     <div class="profile-menu-email" id="profileMenuEmail">user@email.com</div>
                 </div>
-                <div class="profile-menu-group">
-                    <button class="profile-menu-item" onclick="switchView('chat')">
-                        <i class="fas fa-comments"></i>
-                        <span class="item-label">My Chats</span>
-                    </button>
-                    <button class="profile-menu-item" onclick="switchView('files')">
-                        <i class="fas fa-folder-open"></i>
-                        <span class="item-label">Uploaded Files</span>
-                        <span class="item-badge" id="filesCountBadge">0</span>
-                    </button>
-                    <button class="profile-menu-item" onclick="switchView('prescriptions')">
-                        <i class="fas fa-prescription"></i>
-                        <span class="item-label">Medical Prescriptions</span>
-                    </button>
-                    <button class="profile-menu-item" onclick="switchView('dosage')">
-                        <i class="fas fa-clock"></i>
-                        <span class="item-label">Dosage Timings</span>
-                    </button>
-                </div>
+                <div class="profile-menu-group" id="roleMenuPrimary"></div>
                 <div class="profile-menu-divider"></div>
                 <div class="profile-menu-group">
                     <button class="profile-menu-item" onclick="openSettings()">
@@ -993,7 +930,7 @@
                         <span class="item-label">Support & Help</span>
                         <i class="fas fa-chevron-right item-chevron"></i>
                     </button>
-                    <button class="profile-menu-item sos" onclick="triggerSOS()">
+                    <button class="profile-menu-item sos" id="sosBtn" onclick="triggerSOS()">
                         <i class="fas fa-phone-alt"></i>
                         <span class="item-label">Contact Doctor / SOS</span>
                     </button>
@@ -1038,8 +975,8 @@
                                 <i class="fas fa-arrow-left"></i>
                             </button>
                             <div class="dash-header-text">
-                                <h2><i class="fas fa-folder-open"></i> Uploaded Files</h2>
-                                <p>Manage your medical documents, prescriptions, and drug labels</p>
+                                <h2><i class="fas fa-folder-open"></i> <span id="filesTitle">Uploaded Files</span></h2>
+                                <p id="filesSubtitle">Manage your medical documents, prescriptions, and drug labels</p>
                             </div>
                         </div>
                         <div class="dash-stats">
@@ -1085,8 +1022,8 @@
                                 <i class="fas fa-arrow-left"></i>
                             </button>
                             <div class="dash-header-text">
-                                <h2><i class="fas fa-prescription"></i> Medical Prescriptions</h2>
-                                <p>Your saved prescriptions and medication history</p>
+                                <h2><i class="fas fa-prescription"></i> <span id="prescriptionsTitle">Medical Prescriptions</span></h2>
+                                <p id="prescriptionsSubtitle">Your saved prescriptions and medication history</p>
                             </div>
                         </div>
                         <div class="prescription-grid" id="prescriptionGrid"></div>
@@ -1100,8 +1037,8 @@
                                 <i class="fas fa-arrow-left"></i>
                             </button>
                             <div class="dash-header-text">
-                                <h2><i class="fas fa-clock"></i> Dosage Timings</h2>
-                                <p>Keep track of your daily medication schedule</p>
+                                <h2><i class="fas fa-clock"></i> <span id="dosageTitle">Dosage Timings</span></h2>
+                                <p id="dosageSubtitle">Keep track of your daily medication schedule</p>
                             </div>
                         </div>
                         <div class="dosage-list" id="dosageList"></div>
@@ -1221,16 +1158,9 @@
                 }
             });
         }
-
-        function showConfirm(title, message, opts = {}) {
-            return showModal(Object.assign({ type: 'confirm', title, message }, opts));
-        }
-        function showAlert(title, message, opts = {}) {
-            return showModal(Object.assign({ type: 'alert', title, message, confirmText: opts.confirmText || 'OK' }, opts));
-        }
-        function showPrompt(title, message, defaultValue = '', opts = {}) {
-            return showModal(Object.assign({ type: 'confirm', title, message, input: true, defaultValue }, opts));
-        }
+        function showConfirm(title, message, opts = {}) { return showModal(Object.assign({ type: 'confirm', title, message }, opts)); }
+        function showAlert(title, message, opts = {}) { return showModal(Object.assign({ type: 'alert', title, message, confirmText: opts.confirmText || 'OK' }, opts)); }
+        function showPrompt(title, message, defaultValue = '', opts = {}) { return showModal(Object.assign({ type: 'confirm', title, message, input: true, defaultValue }, opts)); }
 
         let currentUser = { name: 'User', email: 'user@email.com', role: 'patient' };
         (function() {
@@ -1247,12 +1177,67 @@
             document.getElementById('userName').textContent = currentUser.name;
             document.getElementById('userAvatar').textContent = initial;
             document.getElementById('profileAvatarLg').childNodes[0].textContent = initial;
-            document.getElementById('profileMenuName').textContent = currentUser.name + ' · ' + (currentUser.role === 'practitioner' ? 'practitioner' : 'private');
             document.getElementById('profileMenuEmail').textContent = currentUser.email;
-            document.getElementById('roleBadge').innerHTML = currentUser.role === 'practitioner'
-                ? '<i class="fas fa-user-md"></i>'
-                : '<i class="fas fa-user"></i>';
+            applyRole(currentUser.role);
         })();
+
+        function applyRole(role) {
+            document.body.classList.remove('role-practitioner', 'role-patient');
+            if (role === 'practitioner') {
+                document.body.classList.add('role-practitioner');
+                document.getElementById('rolePillIcon').className = 'fas fa-user-md';
+                document.getElementById('rolePillText').textContent = 'Practitioner';
+                document.getElementById('roleBadge').innerHTML = '<i class="fas fa-user-md"></i>';
+                document.getElementById('profileMenuName').textContent = 'Dr. ' + currentUser.name;
+                document.getElementById('sosBtn').innerHTML = '<i class="fas fa-user-md"></i><span class="item-label">Consult Specialist</span>';
+                document.getElementById('filesTitle').textContent = 'Clinical Documents';
+                document.getElementById('filesSubtitle').textContent = 'Drug labels, patient records, and clinical references';
+                document.getElementById('prescriptionsTitle').textContent = 'Patient Prescriptions';
+                document.getElementById('prescriptionsSubtitle').textContent = 'Review and manage prescriptions you\'ve issued';
+                document.getElementById('dosageTitle').textContent = 'Dosing Guidelines';
+                document.getElementById('dosageSubtitle').textContent = 'Standard dosing reference for common medications';
+            } else {
+                document.body.classList.add('role-patient');
+                document.getElementById('rolePillIcon').className = 'fas fa-user';
+                document.getElementById('rolePillText').textContent = 'Patient';
+                document.getElementById('roleBadge').innerHTML = '<i class="fas fa-user"></i>';
+                document.getElementById('profileMenuName').textContent = currentUser.name + ' · Patient';
+                document.getElementById('sosBtn').innerHTML = '<i class="fas fa-phone-alt"></i><span class="item-label">Emergency SOS</span>';
+                document.getElementById('filesTitle').textContent = 'My Documents';
+                document.getElementById('filesSubtitle').textContent = 'Your prescriptions, medical reports, and health records';
+                document.getElementById('prescriptionsTitle').textContent = 'My Prescriptions';
+                document.getElementById('prescriptionsSubtitle').textContent = 'Your current and past medications';
+                document.getElementById('dosageTitle').textContent = 'My Medication Schedule';
+                document.getElementById('dosageSubtitle').textContent = 'Reminders for your daily medication';
+            }
+            renderRoleMenuItems(role);
+        }
+
+        function renderRoleMenuItems(role) {
+            const container = document.getElementById('roleMenuPrimary');
+            const items = role === 'practitioner'
+                ? [
+                    { icon: 'fa-comments', label: 'My Chats', view: 'chat' },
+                    { icon: 'fa-folder-open', label: 'Clinical Documents', view: 'files' },
+                    { icon: 'fa-prescription', label: 'Patient Prescriptions', view: 'prescriptions' },
+                    { icon: 'fa-vial-circle-check', label: 'Dosing Guidelines', view: 'dosage' },
+                ]
+                : [
+                    { icon: 'fa-comments', label: 'My Chats', view: 'chat' },
+                    { icon: 'fa-file-medical', label: 'My Documents', view: 'files' },
+                    { icon: 'fa-prescription-bottle-medical', label: 'My Medications', view: 'prescriptions' },
+                    { icon: 'fa-bell', label: 'My Reminders', view: 'dosage' },
+                ];
+            container.innerHTML = '';
+            items.forEach(it => {
+                const btn = document.createElement('button');
+                btn.className = 'profile-menu-item';
+                btn.onclick = () => switchView(it.view);
+                btn.innerHTML = `<i class="fas ${it.icon}"></i><span class="item-label">${it.label}</span>${it.view === 'files' ? '<span class="item-badge" id="filesCountBadge">0</span>' : ''}`;
+                container.appendChild(btn);
+            });
+            updateFilesBadge();
+        }
 
         (function() {
             const now = new Date();
@@ -1290,18 +1275,16 @@
 
         let currentView = 'chat';
         let viewHistory = [];
-
         const viewTitles = {
             chat: 'PharmaLens',
-            files: 'Uploaded Files',
-            prescriptions: 'Medical Prescriptions',
-            dosage: 'Dosage Timings'
+            files: 'Documents',
+            prescriptions: 'Prescriptions',
+            dosage: 'Dosage'
         };
 
         function switchView(viewName, trackHistory = true) {
             const targetView = document.getElementById('view-' + viewName);
             if (!targetView) return;
-
             if (viewName === currentView) {
                 if (viewName === 'files') renderFilesDashboard();
                 if (viewName === 'prescriptions') renderPrescriptions();
@@ -1310,26 +1293,15 @@
                 document.getElementById('userChip').classList.remove('open');
                 return;
             }
-
-            if (trackHistory && currentView) {
-                viewHistory.push(currentView);
-            }
-
+            if (trackHistory && currentView) viewHistory.push(currentView);
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             targetView.classList.add('active');
             currentView = viewName;
-
             document.getElementById('viewTitle').textContent = viewTitles[viewName] || 'PharmaLens';
-
-            if (viewName === 'chat') {
-                document.body.classList.remove('view-dashboard');
-            } else {
-                document.body.classList.add('view-dashboard');
-            }
-
+            if (viewName === 'chat') document.body.classList.remove('view-dashboard');
+            else document.body.classList.add('view-dashboard');
             document.getElementById('profileMenu').classList.remove('open');
             document.getElementById('userChip').classList.remove('open');
-
             if (viewName === 'files') renderFilesDashboard();
             if (viewName === 'prescriptions') renderPrescriptions();
             if (viewName === 'dosage') renderDosage();
@@ -1351,45 +1323,31 @@
             localStorage.setItem('pharmalens-chats', JSON.stringify(chats));
             renderSidebarHistory();
         }
-
         function loadFromStorage() {
             const stored = localStorage.getItem('pharmalens-chats');
             if (stored) {
                 try {
                     chats = JSON.parse(stored);
-                    chats = chats.map(c => {
-                        if (!c.createdAt) c.createdAt = new Date().toISOString();
-                        return c;
-                    });
+                    chats = chats.map(c => { if (!c.createdAt) c.createdAt = new Date().toISOString(); return c; });
                 } catch(e) { chats = []; }
             }
-            if (chats.length === 0) {
-                newChat(true);
-            } else {
+            if (chats.length === 0) newChat(true);
+            else {
                 const active = chats.find(c => c.id === currentChatId) || chats[chats.length - 1];
-                if (active) {
-                    currentChatId = active.id;
-                    renderCurrentChat();
-                } else {
-                    newChat(true);
-                }
+                if (active) { currentChatId = active.id; renderCurrentChat(); }
+                else newChat(true);
             }
             renderSidebarHistory();
         }
-
         function renderCurrentChat() {
             const chat = chats.find(c => c.id === currentChatId);
             const container = document.getElementById('messagesContainer');
             if (!container) return;
             container.innerHTML = '';
-            if (!chat || chat.messages.length === 0) {
-                createInitialState();
-            } else {
-                chat.messages.forEach(msg => addBubbleToUI(msg.role, msg.content, false));
-            }
+            if (!chat || chat.messages.length === 0) createInitialState();
+            else chat.messages.forEach(msg => addBubbleToUI(msg.role, msg.content, false));
             container.scrollTop = container.scrollHeight;
         }
-
         function newChat(silent = false) {
             if (currentChatId) {
                 const current = chats.find(c => c.id === currentChatId);
@@ -1411,51 +1369,33 @@
                     }
                 }
             }
-
             const newId = 'chat-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
-            const newChatObj = {
-                id: newId,
-                title: 'New Chat',
-                messages: [],
-                createdAt: new Date().toISOString(),
-                pinned: false
-            };
-            chats.push(newChatObj);
+            chats.push({ id: newId, title: 'New Chat', messages: [], createdAt: new Date().toISOString(), pinned: false });
             currentChatId = newId;
-
             const container = document.getElementById('messagesContainer');
             if (container) container.innerHTML = '';
             createInitialState();
-
-            if (currentView !== 'chat') {
-                switchView('chat');
-            } else {
+            if (currentView !== 'chat') switchView('chat');
+            else {
                 document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
                 document.getElementById('view-chat').classList.add('active');
                 document.getElementById('viewTitle').textContent = 'PharmaLens';
                 document.body.classList.remove('view-dashboard');
             }
-
             localStorage.setItem('pharmalens-chats', JSON.stringify(chats));
             renderSidebarHistory();
             closeSidebar();
-
             if (!silent) showToast('New chat created');
         }
-
         function clearChat() {
             const chat = chats.find(c => c.id === currentChatId);
-            if (chat) {
-                chat.messages = [];
-                chat.title = 'New Chat';
-            }
+            if (chat) { chat.messages = []; chat.title = 'New Chat'; }
             const container = document.getElementById('messagesContainer');
             if (container) container.innerHTML = '';
             createInitialState();
             saveToStorage();
             showToast('Chat cleared');
         }
-
         function saveChat() {
             const chat = chats.find(c => c.id === currentChatId);
             if (!chat) return;
@@ -1473,15 +1413,13 @@
             }
             saveToStorage();
         }
-
         function loadChatSession(chatId) {
             const chat = chats.find(c => c.id === chatId);
             if (!chat) return;
             currentChatId = chatId;
             renderCurrentChat();
-            if (currentView !== 'chat') {
-                switchView('chat');
-            } else {
+            if (currentView !== 'chat') switchView('chat');
+            else {
                 document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
                 document.getElementById('view-chat').classList.add('active');
                 document.getElementById('viewTitle').textContent = 'PharmaLens';
@@ -1491,26 +1429,16 @@
             closeSidebar();
             showToast('Switched to "' + chat.title + '"');
         }
-
         async function renameChat(id) {
             const chat = chats.find(c => c.id === id);
             if (!chat) return;
-            const newTitle = await showPrompt(
-                'Rename Chat',
-                'Enter a new name for this conversation:',
-                chat.title,
-                { icon: 'fa-edit', placeholder: 'Chat name', confirmText: 'Rename' }
-            );
+            const newTitle = await showPrompt('Rename Chat', 'Enter a new name for this conversation:', chat.title, { icon: 'fa-edit', placeholder: 'Chat name', confirmText: 'Rename' });
             if (newTitle === null) return;
-            if (newTitle.trim() === '') {
-                showAlert('Invalid Name', 'Chat name cannot be empty.', { iconType: 'warning', icon: 'fa-exclamation-triangle' });
-                return;
-            }
+            if (newTitle.trim() === '') { showAlert('Invalid Name', 'Chat name cannot be empty.', { iconType: 'warning', icon: 'fa-exclamation-triangle' }); return; }
             chat.title = newTitle.trim();
             saveToStorage();
             showToast('Chat renamed');
         }
-
         function togglePin(id) {
             const chat = chats.find(c => c.id === id);
             if (!chat) return;
@@ -1518,29 +1446,22 @@
             saveToStorage();
             showToast(chat.pinned ? 'Chat pinned' : 'Chat unpinned');
         }
-
         async function shareChat(id) {
             const chat = chats.find(c => c.id === id);
             if (!chat) return;
             const content = chat.messages.map(m => `${m.role}: ${m.content}`).join('\n');
             try {
                 await navigator.clipboard.writeText(`PharmaLens Conversation: ${chat.title}\n\n${content}`);
-                showAlert('Copied!', 'Chat copied to clipboard. You can now paste it anywhere.', { iconType: 'success', icon: 'fa-check' });
+                showAlert('Copied!', 'Chat copied to clipboard.', { iconType: 'success', icon: 'fa-check' });
             } catch (e) {
                 await showAlert('Share Conversation', `Copy this conversation:\n\n${chat.title}\n\n${content}`, { icon: 'fa-share-alt' });
             }
         }
-
         async function deleteChat(id) {
             const chat = chats.find(c => c.id === id);
             if (!chat) return;
-            const ok = await showConfirm(
-                'Delete Conversation',
-                `Are you sure you want to delete "${chat.title}"?\nThis action cannot be undone.`,
-                { iconType: 'danger', icon: 'fa-trash-alt', confirmText: 'Delete', cancelText: 'Cancel' }
-            );
+            const ok = await showConfirm('Delete Conversation', `Are you sure you want to delete "${chat.title}"?\nThis action cannot be undone.`, { iconType: 'danger', icon: 'fa-trash-alt', confirmText: 'Delete', cancelText: 'Cancel' });
             if (!ok) return;
-
             const i = chats.findIndex(c => c.id === id);
             if (i === -1) return;
             chats.splice(i, 1);
@@ -1550,13 +1471,9 @@
                 renderCurrentChat();
                 renderSidebarHistory();
                 saveToStorage();
-            } else {
-                renderSidebarHistory();
-                saveToStorage();
-            }
+            } else { renderSidebarHistory(); saveToStorage(); }
             showToast('Chat deleted');
         }
-
         function getDateGroup(dateStr) {
             if (!dateStr) return 'Unknown';
             try {
@@ -1572,9 +1489,7 @@
             event.stopPropagation();
             const menu = document.getElementById('dropdown-' + chatId);
             if (!menu) return;
-            document.querySelectorAll('.dropdown-menu.open').forEach(el => {
-                if (el.id !== 'dropdown-' + chatId) el.classList.remove('open');
-            });
+            document.querySelectorAll('.dropdown-menu.open').forEach(el => { if (el.id !== 'dropdown-' + chatId) el.classList.remove('open'); });
             menu.classList.toggle('open');
         }
         document.addEventListener('click', function(e) {
@@ -1582,7 +1497,6 @@
                 document.querySelectorAll('.dropdown-menu.open').forEach(el => el.classList.remove('open'));
             }
         });
-
         function renderSidebarHistory() {
             const section = document.getElementById('historySection');
             if (!section) return;
@@ -1608,18 +1522,15 @@
                 list.forEach(chat => {
                     const item = document.createElement('div');
                     item.className = 'history-item' + (chat.id === currentChatId ? ' active' : '');
-
                     const title = document.createElement('span');
                     title.className = 'title';
                     title.textContent = chat.title + (chat.pinned ? ' 📌' : '');
                     item.appendChild(title);
-
                     const btn = document.createElement('button');
                     btn.className = 'more-btn';
                     btn.innerHTML = '<i class="fas fa-ellipsis-v"></i>';
                     btn.onclick = (e) => { e.stopPropagation(); toggleDropdown(e, chat.id); };
                     item.appendChild(btn);
-
                     const menu = document.createElement('div');
                     menu.className = 'dropdown-menu';
                     menu.id = 'dropdown-' + chat.id;
@@ -1630,12 +1541,10 @@
                         <button class="danger" onclick="deleteChat('${chat.id}')"><i class="fas fa-trash-alt"></i> Delete</button>
                     `;
                     item.appendChild(menu);
-
                     item.onclick = (e) => {
                         if (e.target.closest('.more-btn') || e.target.closest('.dropdown-menu')) return;
                         loadChatSession(chat.id);
                     };
-
                     g.appendChild(item);
                 });
                 section.appendChild(g);
@@ -1663,9 +1572,8 @@
             return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
         }
         function formatDate(iso) {
-            try {
-                return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-            } catch(e) { return '—'; }
+            try { return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
+            catch(e) { return '—'; }
         }
         function fileIconClass(type, name) {
             const n = (name || '').toLowerCase();
@@ -1697,9 +1605,7 @@
                     const typeCls = fileIconClass(null, file.name);
                     const iconFA = fileIconFA(null, file.name);
                     row.innerHTML = `
-                        <div class="file-type-icon ${typeCls}">
-                            <i class="fas ${iconFA}"></i>
-                        </div>
+                        <div class="file-type-icon ${typeCls}"><i class="fas ${iconFA}"></i></div>
                         <div class="file-info">
                             <div class="file-name">${file.name}</div>
                             <div class="file-meta">
@@ -1723,9 +1629,7 @@
             if (uploadedFiles.length > 0) {
                 const latest = uploadedFiles.reduce((a, b) => (new Date(a.uploadedAt) > new Date(b.uploadedAt) ? a : b));
                 document.getElementById('statLatest').textContent = formatDate(latest.uploadedAt);
-            } else {
-                document.getElementById('statLatest').textContent = '—';
-            }
+            } else { document.getElementById('statLatest').textContent = '—'; }
         }
         function handleDashboardUpload(input) {
             if (!input.files) return;
@@ -1743,11 +1647,7 @@
         async function deleteFile(id) {
             const f = uploadedFiles.find(x => x.id === id);
             if (!f) return;
-            const ok = await showConfirm(
-                'Delete File',
-                `Are you sure you want to delete "${f.name}"?\nThis action cannot be undone.`,
-                { iconType: 'danger', icon: 'fa-trash-alt', confirmText: 'Delete', cancelText: 'Cancel' }
-            );
+            const ok = await showConfirm('Delete File', `Are you sure you want to delete "${f.name}"?\nThis action cannot be undone.`, { iconType: 'danger', icon: 'fa-trash-alt', confirmText: 'Delete', cancelText: 'Cancel' });
             if (!ok) return;
             uploadedFiles = uploadedFiles.filter(x => x.id !== id);
             saveFiles();
@@ -1757,20 +1657,12 @@
         function viewFile(id) {
             const f = uploadedFiles.find(x => x.id === id);
             if (!f) return;
-            showAlert(
-                'File Details',
-                `📄 ${f.name}\n\nSize: ${formatSize(f.size)}\nUploaded: ${formatDate(f.uploadedAt)}\n\nFile preview will be available when the backend is connected.`,
-                { icon: 'fa-file-pdf' }
-            );
+            showAlert('File Details', `📄 ${f.name}\n\nSize: ${formatSize(f.size)}\nUploaded: ${formatDate(f.uploadedAt)}\n\nFile preview will be available when the backend is connected.`, { icon: 'fa-file-pdf' });
         }
         function downloadFile(id) {
             const f = uploadedFiles.find(x => x.id === id);
             if (!f) return;
-            showAlert(
-                'Downloading File',
-                `⬇️ Preparing ${f.name} for download…\n\nFile download will work when the backend is connected.`,
-                { icon: 'fa-download' }
-            );
+            showAlert('Downloading File', `⬇️ Preparing ${f.name} for download…\n\nFile download will work when the backend is connected.`, { icon: 'fa-download' });
         }
         (function() {
             const zone = document.getElementById('uploadZone');
@@ -1792,27 +1684,40 @@
             });
         })();
 
-        const samplePrescriptions = [
-            { id: 'rx-1', title: 'Rinvoq (Upadacitinib) 15mg', doctor: 'Dr. Sarah Mitchell', date: '2026-09-05', status: 'Active', details: 'Take 1 tablet once daily. Duration: 3 months. Refills: 2 remaining.' },
-            { id: 'rx-2', title: 'Methotrexate 10mg', doctor: 'Dr. James Chen', date: '2026-08-20', status: 'Active', details: 'Take once weekly on Mondays. Folic acid 5mg daily. Duration: 6 months.' },
-            { id: 'rx-3', title: 'Ibuprofen 400mg', doctor: 'Dr. Sarah Mitchell', date: '2026-07-15', status: 'Completed', details: 'Take 1 tablet every 8 hours as needed. Max 3 per day. Duration: 7 days.' }
-        ];
+        function getPrescriptions() {
+            if (currentUser.role === 'practitioner') {
+                return [
+                    { id: 'rx-1', title: 'Rinvoq 15mg — Issued', doctor: 'Issued to: Patient A.M.', date: '2026-09-08', status: 'Active', details: '15 mg once daily. Duration: 3 months. Interactions checked: none.' },
+                    { id: 'rx-2', title: 'Methotrexate 10mg — Issued', doctor: 'Issued to: Patient J.K.', date: '2026-09-02', status: 'Active', details: '10 mg weekly + folic acid 5mg daily. Monitor LFTs monthly.' },
+                    { id: 'rx-3', title: 'Adalimumab 40mg — Pending Review', doctor: 'Issued to: Patient S.P.', date: '2026-08-25', status: 'Review', details: 'TB screening complete. Awaiting insurance approval.' }
+                ];
+            }
+            return [
+                { id: 'rx-1', title: 'Rinvoq (Upadacitinib) 15mg', doctor: 'Dr. Sarah Mitchell', date: '2026-09-05', status: 'Active', details: 'Take 1 tablet once daily. Duration: 3 months. Refills: 2 remaining.' },
+                { id: 'rx-2', title: 'Methotrexate 10mg', doctor: 'Dr. James Chen', date: '2026-08-20', status: 'Active', details: 'Take once weekly on Mondays. Folic acid 5mg daily. Duration: 6 months.' },
+                { id: 'rx-3', title: 'Ibuprofen 400mg', doctor: 'Dr. Sarah Mitchell', date: '2026-07-15', status: 'Completed', details: 'Take 1 tablet every 8 hours as needed. Max 3 per day. Duration: 7 days.' }
+            ];
+        }
         function renderPrescriptions() {
             const grid = document.getElementById('prescriptionGrid');
             if (!grid) return;
             grid.innerHTML = '';
-            samplePrescriptions.forEach(rx => {
+            getPrescriptions().forEach(rx => {
                 const card = document.createElement('div');
                 card.className = 'prescription-card';
                 const isActive = rx.status === 'Active';
+                const isReview = rx.status === 'Review';
+                let badgeStyle = '';
+                if (!isActive && !isReview) badgeStyle = 'background: rgba(107,114,128,0.15); color: var(--text-muted);';
+                else if (isReview) badgeStyle = 'background: rgba(245,158,11,0.18); color: #d97706;';
                 card.innerHTML = `
                     <div class="p-header">
                         <div class="p-icon"><i class="fas fa-prescription-bottle-medical"></i></div>
-                        <span class="p-badge" style="${isActive ? '' : 'background: rgba(107,114,128,0.15); color: var(--text-muted);'}">${rx.status}</span>
+                        <span class="p-badge" style="${badgeStyle}">${rx.status}</span>
                     </div>
                     <div class="p-title">${rx.title}</div>
                     <div class="p-details">
-                        <div><strong>Prescribed by:</strong> ${rx.doctor}</div>
+                        <div><strong>${currentUser.role === 'practitioner' ? 'Recipient' : 'Prescribed by'}:</strong> ${rx.doctor}</div>
                         <div><strong>Date:</strong> ${formatDate(rx.date)}</div>
                         <div style="margin-top:8px;">${rx.details}</div>
                     </div>
@@ -1821,18 +1726,29 @@
             });
         }
 
-        const sampleDosages = [
-            { id: 'd1', time: '08:00', period: 'AM', name: 'Rinvoq 15mg', dose: '1 tablet with water', note: 'Take with breakfast', done: false },
-            { id: 'd2', time: '09:00', period: 'AM', name: 'Folic Acid 5mg', dose: '1 tablet', note: 'Take after breakfast', done: false },
-            { id: 'd3', time: '01:00', period: 'PM', name: 'Vitamin D3 1000 IU', dose: '1 capsule', note: 'Take with lunch', done: false },
-            { id: 'd4', time: '08:00', period: 'PM', name: 'Methotrexate 10mg', dose: '1 tablet (Mondays only)', note: 'Take with dinner', done: false },
-            { id: 'd5', time: '10:00', period: 'PM', name: 'Calcium 500mg', dose: '1 tablet', note: 'Take before bed', done: false }
-        ];
+        function getDosages() {
+            if (currentUser.role === 'practitioner') {
+                return [
+                    { id: 'd1', time: '15mg', period: 'QD', name: 'Rinvoq (Upadacitinib)', dose: 'Once daily, with or without food', note: 'RA / PsA / AS — adults', done: false },
+                    { id: 'd2', time: '10mg', period: 'QWK', name: 'Methotrexate', dose: 'Once weekly + folic acid', note: 'Monitor LFTs, CBC monthly', done: false },
+                    { id: 'd3', time: '40mg', period: 'Q2W', name: 'Adalimumab', dose: 'Subcutaneous every other week', note: 'Check TB before initiation', done: false },
+                    { id: 'd4', time: '5mg', period: 'QD', name: 'Prednisone', dose: 'Once daily, morning', note: 'Taper gradually if >2 weeks use', done: false },
+                    { id: 'd5', time: '5mg', period: 'QD', name: 'Folic Acid', dose: 'Once daily with MTX', note: 'Reduces MTX side effects', done: false }
+                ];
+            }
+            return [
+                { id: 'd1', time: '08:00', period: 'AM', name: 'Rinvoq 15mg', dose: '1 tablet with water', note: 'Take with breakfast', done: false },
+                { id: 'd2', time: '09:00', period: 'AM', name: 'Folic Acid 5mg', dose: '1 tablet', note: 'Take after breakfast', done: false },
+                { id: 'd3', time: '01:00', period: 'PM', name: 'Vitamin D3 1000 IU', dose: '1 capsule', note: 'Take with lunch', done: false },
+                { id: 'd4', time: '08:00', period: 'PM', name: 'Methotrexate 10mg', dose: '1 tablet (Mondays only)', note: 'Take with dinner', done: false },
+                { id: 'd5', time: '10:00', period: 'PM', name: 'Calcium 500mg', dose: '1 tablet', note: 'Take before bed', done: false }
+            ];
+        }
         function renderDosage() {
             const list = document.getElementById('dosageList');
             if (!list) return;
             list.innerHTML = '';
-            sampleDosages.forEach(d => {
+            getDosages().forEach(d => {
                 const item = document.createElement('div');
                 item.className = 'dosage-item';
                 item.innerHTML = `
@@ -1853,7 +1769,7 @@
             });
         }
         function toggleDosage(id, el) {
-            const d = sampleDosages.find(x => x.id === id);
+            const d = getDosages().find(x => x.id === id);
             if (!d) return;
             d.done = !d.done;
             el.classList.toggle('done', d.done);
@@ -1866,20 +1782,17 @@
             showAlert('Support & Help', '📧 Email: support@pharmalens.com\n📞 Phone: +1 (800) 555-0199\n\nOur team responds within 24 hours.', { icon: 'fa-life-ring' });
         }
         async function triggerSOS() {
-            const ok = await showConfirm(
-                'Contact Doctor / SOS',
-                'This will notify your emergency contacts and connect you to the on-call physician.\n\nProceed?',
-                { iconType: 'warning', icon: 'fa-phone-alt', confirmText: 'Proceed', cancelText: 'Cancel' }
-            );
+            const isPractitioner = currentUser.role === 'practitioner';
+            const title = isPractitioner ? 'Consult Specialist' : 'Emergency SOS';
+            const message = isPractitioner
+                ? 'This will connect you to the on-call specialist for a clinical consult.\n\nProceed?'
+                : 'This will notify your emergency contacts and connect you to the on-call physician.\n\nProceed?';
+            const ok = await showConfirm(title, message, { iconType: 'warning', icon: 'fa-phone-alt', confirmText: 'Proceed', cancelText: 'Cancel' });
             if (!ok) return;
-            showAlert('Connecting…', '📞 Connecting to on-call physician…\n\nBackend integration is pending.', { iconType: 'warning', icon: 'fa-phone-alt' });
+            showAlert('Connecting…', isPractitioner ? '📞 Connecting to on-call specialist…\n\nBackend integration is pending.' : '📞 Connecting to on-call physician…\n\nBackend integration is pending.', { iconType: 'warning', icon: 'fa-phone-alt' });
         }
         async function signOut() {
-            const ok = await showConfirm(
-                'Sign Out',
-                'Are you sure you want to sign out of PharmaLens?',
-                { icon: 'fa-sign-out-alt', confirmText: 'Sign Out', cancelText: 'Cancel' }
-            );
+            const ok = await showConfirm('Sign Out', 'Are you sure you want to sign out of PharmaLens?', { icon: 'fa-sign-out-alt', confirmText: 'Sign Out', cancelText: 'Cancel' });
             if (!ok) return;
             localStorage.removeItem('pharmalens-user');
             window.location.href = 'index.html';
@@ -1906,23 +1819,18 @@
             if (btn.classList.contains('listening')) { recognition.stop(); stopVoiceUI(); }
             else { btn.classList.add('listening'); recognition.start(); }
         }
-        function stopVoiceUI() {
-            document.getElementById('micBtn').classList.remove('listening');
-        }
+        function stopVoiceUI() { document.getElementById('micBtn').classList.remove('listening'); }
 
         function handleEnter(e) {
             if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
         }
-
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 const modalOpen = document.getElementById('modalOverlay').classList.contains('show');
                 if (modalOpen) return;
-
                 const profileOpen = document.getElementById('profileMenu').classList.contains('open');
                 const sourceOpen = document.getElementById('sourcePanel').classList.contains('open');
                 const sidebarOpen = document.getElementById('sidebar').classList.contains('open');
-
                 if (profileOpen || sourceOpen) {
                     document.getElementById('profileMenu').classList.remove('open');
                     document.getElementById('userChip').classList.remove('open');
@@ -1930,9 +1838,8 @@
                     return;
                 }
                 if (sidebarOpen) { closeSidebar(); return; }
-                if (currentView !== 'chat' || viewHistory.length > 0) {
-                    goBack();
-                } else {
+                if (currentView !== 'chat' || viewHistory.length > 0) goBack();
+                else {
                     document.getElementById('userInput').value = '';
                     document.getElementById('userInput').blur();
                 }
@@ -1956,26 +1863,50 @@
             container.scrollTop = container.scrollHeight;
             setTimeout(() => { typing.remove(); streamBotResponse(message, container); }, 600);
         }
+
         function streamBotResponse(q, container) {
             const lower = q.toLowerCase();
+            const isPractitioner = currentUser.role === 'practitioner';
             let response, citation;
+
             if (lower.includes('warning') || lower.includes('boxed')) {
-                response = "The boxed warning for Rinvoq (upadacitinib) states: 'WARNING: SERIOUS INFECTIONS, MALIGNANCY, AND THROMBOSIS. Patients treated with Rinvoq are at increased risk for serious infections that may lead to hospitalization or death.'";
+                if (isPractitioner) {
+                    response = "Boxed warning (Rinvoq/upadacitinib): Serious infections leading to hospitalization or death; malignancy (lymphoma, other); thrombosis including PE, DVT, arterial thrombosis. Perform TB screening before initiation. Monitor for infection during therapy. Avoid in active serious infections.";
+                } else {
+                    response = "The label has a strong (boxed) warning. It means this medicine can rarely cause very serious problems — including serious infections, some cancers, and blood clots. Talk to your doctor right away if you notice fever, unusual swelling, or shortness of breath.";
+                }
                 citation = { paper: 'Rinvoq PI', page: 7 };
             } else if (lower.includes('dose') || lower.includes('dosage')) {
-                response = "The recommended dose of Rinvoq is 15 mg once daily. For patients with moderate to severe rheumatoid arthritis, the dose may be increased to 30 mg once daily based on clinical response.";
+                if (isPractitioner) {
+                    response = "Rinvoq (upadacitinib): RA/PsA/AS — 15 mg PO once daily. May increase to 30 mg once daily in RA if inadequate response. Avoid 30 mg in patients at higher risk of VTE, malignancy, or serious infection. Renal/hepatic: no dose adjustment for mild-moderate.";
+                } else {
+                    response = "The usual adult dose is 15 mg once a day, taken by mouth with or without food. Your doctor may adjust the dose based on how you respond. Never change the dose yourself — always ask your doctor first.";
+                }
                 citation = { paper: 'Rinvoq PI', page: 12 };
             } else if (lower.includes('side effect') || lower.includes('adverse')) {
-                response = "Common side effects of Rinvoq include upper respiratory tract infections, nausea, cough, and headache. Serious side effects include serious infections, malignancy, and thrombosis.";
+                if (isPractitioner) {
+                    response = "Common adverse reactions (≥1%): upper respiratory tract infection, nasopharyngitis, herpes zoster, bronchitis, nausea, cough, pyrexia, acne, headache, elevated CPK, hyperlipidemia. Serious: serious infections, malignancy, MACE, thrombosis, GI perforation, hypersensitivity.";
+                } else {
+                    response = "Common side effects include cold-like symptoms, nausea, cough, and headache. More serious (but rare) effects include severe infections, some cancers, and blood clots. Tell your doctor if you feel unwell, have a fever, or notice unusual swelling or pain.";
+                }
                 citation = { paper: 'Rinvoq PI', page: 24 };
-            } else if (lower.includes('used for') || lower.includes('indication')) {
-                response = "Rinvoq is indicated for the treatment of adults with moderately to severely active rheumatoid arthritis, psoriatic arthritis, and ankylosing spondylitis who have had an inadequate response to one or more TNF blockers.";
+            } else if (lower.includes('used for') || lower.includes('indication') || lower.includes('what is')) {
+                if (isPractitioner) {
+                    response = "Indications: Moderately to severely active rheumatoid arthritis (adults, inadequate response to ≥1 TNF blocker); active psoriatic arthritis; active ankylosing spondylitis; active non-radiographic axSpA; moderate-severe atopic dermatitis; moderately-severe active ulcerative colitis. JAK inhibitor — oral, selective.";
+                } else {
+                    response = "This medicine is used in adults to treat several conditions where the immune system attacks the body — like rheumatoid arthritis, psoriatic arthritis, and some types of arthritis of the spine. It helps reduce pain and swelling. Only your doctor can decide if it's right for you.";
+                }
                 citation = { paper: 'Rinvoq PI', page: 3 };
-            } else if (lower.includes('should i') || lower.includes('diagnos')) {
-                response = "I cannot provide personal medical advice. Please consult your healthcare provider for personalized guidance.";
+            } else if (lower.includes('should i') || lower.includes('diagnos') || lower.includes('personal')) {
+                response = isPractitioner
+                    ? "I cannot provide individualized clinical decisions. Please correlate with the full label, patient history, and your clinical judgment."
+                    : "I cannot provide personal medical advice. Please consult your healthcare provider for personalized guidance.";
             } else {
-                response = "I can help you find information about Rinvoq from the official drug label. Try asking about the boxed warning, dosage, side effects, or indications.";
+                response = isPractitioner
+                    ? "I can retrieve information from the official drug label with page-level citations. Try asking about boxed warnings, dosing, contraindications, drug interactions, or specific adverse reactions."
+                    : "I can help you find simple answers from the official drug label. Try asking what the medicine is for, when to take it, or what side effects to watch out for.";
             }
+
             const botMsg = document.createElement('div');
             botMsg.className = 'message bot';
             const textSpan = document.createElement('div');
@@ -2015,6 +1946,7 @@
             }
             stream();
         }
+
         function addBubbleToUI(role, content, animate) {
             const container = document.getElementById('messagesContainer');
             const msg = document.createElement('div');
@@ -2089,7 +2021,7 @@
         (function() {
             const area = document.getElementById('chatArea');
             const zone = document.createElement('div');
-            zone.style.cssText = `position:absolute;inset:0;background:rgba(16,185,129,0.12);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:50;border:4px dashed var(--accent);border-radius:20px;font-size:1.4rem;color:var(--accent);pointer-events:none;font-weight:600;margin:20px;`;
+            zone.style.cssText = `position:absolute;inset:0;background:var(--glow);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:50;border:4px dashed var(--accent);border-radius:20px;font-size:1.4rem;color:var(--accent);pointer-events:none;font-weight:600;margin:20px;`;
             zone.textContent = '📄 Drop your PDF here';
             area.appendChild(zone);
             area.addEventListener('dragover', e => { e.preventDefault(); zone.style.display = 'flex'; });
@@ -2120,29 +2052,39 @@
             const init = document.createElement('div');
             init.className = 'initial-state';
             init.id = 'initialState';
-            const greeting = currentUser.role === 'practitioner'
-                ? `Welcome, <span>${currentUser.name}</span>`
-                : `How can I <span>help you today?</span>`;
-            const sub = currentUser.role === 'practitioner'
-                ? 'Quick access to drug label information and clinical references'
-                : 'Ask about the official drug label, or upload a PDF to get started';
+            const isPractitioner = currentUser.role === 'practitioner';
+
+            const greeting = isPractitioner
+                ? `Welcome back, <span>Dr. ${currentUser.name}</span>`
+                : `Hi <span>${currentUser.name}</span>, how are you feeling?`;
+            const sub = isPractitioner
+                ? 'Clinical references, dosing, and drug intelligence from the official label'
+                : 'Simple answers from the official drug label — no guesswork';
+
+            const suggestions = isPractitioner
+                ? [
+                    { icon: 'fa-exclamation-triangle', color: '#f59e0b', text: 'What is the boxed warning?', q: 'What is the boxed warning?' },
+                    { icon: 'fa-ban', color: '#dc2626', text: 'What are the contraindications?', q: 'What are the contraindications?' },
+                    { icon: 'fa-pills', color: '', text: 'What is the dosing regimen?', q: 'What is the recommended dose?' },
+                    { icon: 'fa-flask', color: '', text: 'What is the mechanism of action?', q: 'What is the mechanism of action?' },
+                  ]
+                : [
+                    { icon: 'fa-question-circle', color: '', text: 'What is this medicine for?', q: 'What is Rinvoq used for?' },
+                    { icon: 'fa-clock', color: '#0d9488', text: 'When should I take it?', q: 'What is the recommended dose?' },
+                    { icon: 'fa-notes-medical', color: '', text: 'What side effects should I watch for?', q: 'What are the side effects?' },
+                    { icon: 'fa-shield-alt', color: '#f59e0b', text: 'Is it safe for me?', q: 'What is the boxed warning?' },
+                  ];
+
+            let suggestionsHTML = '';
+            suggestions.forEach(s => {
+                const iconStyle = s.color ? ` style="color:${s.color};margin-right:6px;"` : ' style="margin-right:6px;"';
+                suggestionsHTML += `<button class="suggestion-btn" onclick="sendMessage('${s.q}')"><i class="fas ${s.icon}"${iconStyle}></i> ${s.text}</button>`;
+            });
+
             init.innerHTML = `
                 <h2>${greeting}</h2>
                 <p class="sub">${sub}</p>
-                <div class="suggestions-grid">
-                    <button class="suggestion-btn" onclick="sendMessage('What is the boxed warning?')">
-                        <i class="fas fa-exclamation-triangle" style="color:#f59e0b;margin-right:6px;"></i> What is the boxed warning?
-                    </button>
-                    <button class="suggestion-btn" onclick="sendMessage('What is Rinvoq used for?')">
-                        <i class="fas fa-pills" style="margin-right:6px;"></i> What is Rinvoq used for?
-                    </button>
-                    <button class="suggestion-btn" onclick="sendMessage('What is the recommended dose?')">
-                        <i class="fas fa-prescription-bottle" style="margin-right:6px;"></i> What is the recommended dose?
-                    </button>
-                    <button class="suggestion-btn" onclick="sendMessage('What are the side effects?')">
-                        <i class="fas fa-notes-medical" style="margin-right:6px;"></i> What are the side effects?
-                    </button>
-                </div>
+                <div class="suggestions-grid">${suggestionsHTML}</div>
             `;
             container.appendChild(init);
         }
